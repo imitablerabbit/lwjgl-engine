@@ -7,17 +7,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="src" level="project" />
     <orderEntry type="module-library">
-      <library name="LWJGL">
+      <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../Libraries/LWJGL/jar/lwjgl.jar!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../Libraries/LWJGL/doc/javadoc.zip!/" />
-        </JAVADOC>
+        <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="src" level="project" />
   </component>
 </module>

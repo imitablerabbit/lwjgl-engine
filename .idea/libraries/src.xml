@@ -2,8 +2,6 @@
   <library name="src">
     <CLASSES />
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$PROJECT_DIR$/../Libraries/JOML/src" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
