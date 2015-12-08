@@ -7,15 +7,15 @@
 
 <h3>Downloading the relevant files:</h3>
 <p>
-    This project uses other libraries in order for it to work, The largest of these is the LWJGL library. LWJGL gives support for openGL inside of java. LWJGL comes with GLFW, which we use to create and bind an openGL context to a window.
+    This engine uses both LWJGL and JOML. LWJGL is a java library that enables cross platform access to openGL API. LWJGL also comes with GLFW, which we use to create and bind an openGL context to a window.
     <a href="https://www.lwjgl.org/">LWJGL can be found here</a>
 </p>
 <p>
-    JOML is also used for this engine. JOML is a mathematics library specifically for Vectors and Matrices.
+    JOML is also used for this engine. JOML is describes as a Java math library for OpenGL rendering calculations. In this engine it is used mainly for its Vector and Matrix classes
     <a href="https://github.com/JOML-CI/JOML">JOML can be found here</a>
 </p>
 
-<h3>Adding the libraries:</h3>
+<h3>Adding LWJGL:</h3>
 <p>
     The libraries need to be added to the project in order for them to work. For this section I will only include how to do this in intellij. If you are using another IDE you will have to research this for yourself.
 </p>
@@ -44,9 +44,6 @@
     <li>
         Now we need to add a VM option before we can run anything. This is done by opening the edit configurations window (Run -> Edit Configurations...).  Find the VM Options box and enter the following. Where "libs" is the folder name containing the native files.
         <p><strong>-Djava.library.path=libs/</strong></p>
-    </li>
-    <li>
-        Adding JOML is easy, just copy the source code into the src folder. This has already been done for you
     </li>
 </ol>
 
