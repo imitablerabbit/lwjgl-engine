@@ -2,7 +2,7 @@
 
 <h2>Setting up the project:</h2>
 <p>
-    This project has mostly been created using the intellij IDE. Therefore I will only give instructions on how to build the engine for intellij.
+    This project is being made using the intellij IDE. Therefore I will only give instructions on how to build the engine for intellij.
 </p>
 
 <h3>Downloading the relevant files:</h3>
