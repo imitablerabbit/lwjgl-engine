@@ -47,8 +47,8 @@
     </li>
 </ol>
 
-<h3>Running from CMD</h3>
-<p>In order to run the class files click on the run.bat file. This just runs the specific command needed to run the pre-built class files in the command line. To find out how this works, open up the .bat file and search for any part of the java run string that you want to research</p>
+<h3>Running from CMD:</h3>
+<p>I include a BUILD folder which contains the files needed to get the program running, just open up this folder and double click on the run.bat file. This just runs the specific command needed to run the pre-built class files in the command line. To find out how this works, open up the .bat file and search for any part of the java run string that you want to research</p>
 
 <h2>To Do:</h2>
 <ul>
