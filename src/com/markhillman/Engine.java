@@ -154,7 +154,10 @@ public class Engine {
 
         //Create the renderer and the entity to render
         Renderer renderer = new Renderer(programID);
-        Entity entity = new Entity(new Vector3f(0, 0, 0));
+        Entity[] entities = new Entity[10];
+        for (int i = 0; i < entities.length; i++) {
+            entities[i] = new Entity(new Vector3f(i * 2, 0, 0));
+        }
 
         //Run the game and rendering loop.
         while (window.shouldClose() == GLFW_FALSE) {
@@ -163,7 +166,9 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //Render the mesh
-            renderer.renderEntity(entity, camera.getView(), camera.getProjection());
+            for (int i = 0; i < entities.length; i++) {
+                renderer.renderEntity(entities[i], camera.getView(), camera.getProjection());
+            }
 
             //Poll for events and make use of key callback
             window.swapBuffers();
