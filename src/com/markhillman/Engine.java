@@ -91,25 +91,22 @@ public class Engine {
             public void invoke(long window, int key, int scancode, int action, int mods) {
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                     glfwSetWindowShouldClose(window, GLFW_TRUE);
-                else if (key == GLFW_KEY_W) {
+                else if (key == GLFW_KEY_W){
 
                     //Move the camera forward
                     camera.setPosition(camera.getPosition().sub(camera.getDirection().mul(speed)));
                     camera.update();
-                }
-                else if (key == GLFW_KEY_S) {
+                } else if (key == GLFW_KEY_S) {
 
                     //Move the camera back
                     camera.setPosition(camera.getPosition().add(camera.getDirection().mul(speed)));
                     camera.update();
-                }
-                else if (key == GLFW_KEY_A) {
+                } else if (key == GLFW_KEY_A) {
 
                     //Move the camera left
                     camera.setPosition(camera.getPosition().add(camera.getDirection().cross(new Vector3f(0, 1, 0)).mul(speed)));
                     camera.update();
-                }
-                else if (key == GLFW_KEY_D) {
+                } else if (key == GLFW_KEY_D) {
 
                     //Move the camera left
                     camera.setPosition(camera.getPosition().sub(camera.getDirection().cross(new Vector3f(0, 1, 0)).mul(speed)));
@@ -129,8 +126,8 @@ public class Engine {
             public void invoke(long window, double x, double y) {
 
                 //Update the camera
-                angles.setYaw(angles.getYaw() + (float)((x - xPrev) / sensitivity));
-                angles.setPitch(angles.getPitch() + (float)((y - yPrev) / sensitivity));
+                angles.setYaw(angles.getYaw() + (float) ((x - xPrev) / sensitivity));
+                angles.setPitch(angles.getPitch() + (float) ((y - yPrev) / sensitivity));
                 camera.update(angles);
 
                 xPrev = x;

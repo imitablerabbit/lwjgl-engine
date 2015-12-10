@@ -2,7 +2,7 @@
 
 <h2>Setting up the project:</h2>
 <p>
-    This project is being made using the intellij IDE. Therefore I will only give instructions on how to build the engine for intellij.
+    This project is being made using the intellij IDE. Therefore I will only give instructions on how to build the engine for intellij. I will also supply instructions on how to run the program from the command line.
 </p>
 
 <h3>Downloading the relevant files:</h3>
@@ -47,6 +47,8 @@
     </li>
 </ol>
 
+<h3>Running from CMD</h3>
+<p>I include a BUILD folder which contains the files needed to get the program running, just open up this folder and double click on the run.bat file. This just runs the specific command needed to run the pre-built class files in the command line. To find out how this works, open up the .bat file and search for any part of the java run string that you want to research</p>
 
 <h2>To Do:</h2>
 <ul>
