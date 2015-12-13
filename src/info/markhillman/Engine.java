@@ -1,5 +1,6 @@
 package info.markhillman;
 
+import info.markhillman.Models.Boid;
 import info.markhillman.Models.Entity;
 import info.markhillman.Renderer.Renderer;
 import info.markhillman.Scene.Camera;
@@ -154,9 +155,9 @@ public class Engine {
 
         //Create the renderer and the entity to render
         Renderer renderer = new Renderer(programID);
-        Entity[] entities = new Entity[10];
+        Entity[] entities = new Boid[10];
         for (int i = 0; i < entities.length; i++) {
-            entities[i] = new Entity(new Vector3f(i * 2, 0, 0));
+            entities[i] = new Boid(new Vector3f(i * 1, 0, 0));
         }
 
         //Run the game and rendering loop.
@@ -167,8 +168,10 @@ public class Engine {
 
             //Render the mesh
             for (int i = 0; i < entities.length; i++) {
+                entities[i].move(new Vector3f(0, 0.01f, 0));
                 renderer.renderEntity(entities[i], camera.getView(), camera.getProjection());
             }
+            //renderer.renderInstanced(entities[1].getModel());
 
             //Poll for events and make use of key callback
             window.swapBuffers();
