@@ -53,4 +53,14 @@
 <h2>To Do:</h2>
 <ul>
     <li>Add a Scene class to contain the camera</li>
+    <li>Add some functionality to the Boid class</li>
+    <li>Look into creating the matrices within the classes instead of the renderer</li>
+    <li>Create instance rendering method for multiple entities</li>
+    <li>Organise some of the code</li>
+</ul>
+
+<h2>Change Log:</h2>
+<ul>
+    <li>Added support for scaling and rotation</li>
+    <li>Created the Boid class</li>
 </ul>
