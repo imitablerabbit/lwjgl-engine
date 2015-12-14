@@ -13,4 +13,14 @@ public class Boid extends Entity {
     public Boid(Vector3f position) {
         super(position, new Vector3f(0.2f, 0.6f, 1f), new Vector3f(0, 0, 0));
     }
+    public Boid() {
+        this(new Vector3f(0, 0, 0));
+    }
+
+    //Make sure that the model is always the same for a clone
+    public Boid clone() {
+        Boid boid = new Boid(this.getPosition());
+        boid.setModel(this.getModel());
+        return boid;
+    }
 }

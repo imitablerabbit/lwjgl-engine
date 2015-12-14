@@ -2,7 +2,8 @@ package info.markhillman;
 
 import info.markhillman.Models.Boid;
 import info.markhillman.Models.Entity;
-import info.markhillman.Renderer.Renderer;
+import info.markhillman.Models.Model;
+import info.markhillman.Renderer.InstancedRenderer;
 import info.markhillman.Scene.Camera;
 import info.markhillman.Utils.EulerAngle;
 import info.markhillman.Utils.ShaderLoader;
@@ -11,6 +12,10 @@ import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -154,11 +159,21 @@ public class Engine {
         glUseProgram(programID);
 
         //Create the renderer and the entity to render
-        Renderer renderer = new Renderer(programID);
-        Entity[] entities = new Boid[10];
-        for (int i = 0; i < entities.length; i++) {
-            entities[i] = new Boid(new Vector3f(i * 1, 0, 0));
+        InstancedRenderer renderer = new InstancedRenderer(programID);
+        List<Entity> entities = new ArrayList<>(0);
+        Boid boid = new Boid();
+        Entity entity = new Entity();
+        for (int i = 0; i < 5; i++) {
+            Boid b = boid.clone();
+            b.setPosition(new Vector3f(i, 0, 0));
+            entities.add(b);
         }
+        for (int i = 0; i < 5; i++) {
+            Entity e = entity.clone();
+            e.setPosition(new Vector3f(5 + (i * 2), 0, 0));
+            entities.add(e);
+        }
+        Map<Model, List<Entity>> map = renderer.assembleMap(entities);
 
         //Run the game and rendering loop.
         while (window.shouldClose() == GLFW_FALSE) {
@@ -166,12 +181,8 @@ public class Engine {
             //Clear and swap the frame buffers
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            //Render the mesh
-            for (int i = 0; i < entities.length; i++) {
-                entities[i].move(new Vector3f(0, 0.01f, 0));
-                renderer.renderEntity(entities[i], camera.getView(), camera.getProjection());
-            }
-            //renderer.renderInstanced(entities[1].getModel());
+            //Render the map of entities
+            renderer.renderEntityMap(map, camera.getView(), camera.getProjection());
 
             //Poll for events and make use of key callback
             window.swapBuffers();

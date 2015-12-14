@@ -2,8 +2,6 @@ package info.markhillman.Models;
 
 import org.joml.Vector3f;
 
-import java.util.Vector;
-
 /**
  * Class: Model
  * Description: This is the basic model class, it will
@@ -41,6 +39,11 @@ public class Entity {
         this.position = position;
         this.scale = scale;
         this.rotation = rotation;
+    }
+
+    //Clone the entity making sure that the model is the same object
+    public Entity clone() {
+        return new Entity(model, position, scale, rotation);
     }
 
     //Move the entity

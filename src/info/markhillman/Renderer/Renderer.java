@@ -2,7 +2,6 @@ package info.markhillman.Renderer;
 
 import info.markhillman.Models.Entity;
 import info.markhillman.Models.Model;
-import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
@@ -14,7 +13,6 @@ import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL31.glDrawArraysInstanced;
 
 /**
  * Class: Renderer
@@ -23,60 +21,58 @@ import static org.lwjgl.opengl.GL31.glDrawArraysInstanced;
  */
 public class Renderer {
 
-    private int programID;
+    protected int programID;
 
     public Renderer(int programID) {
         this.programID = programID;
     }
 
-    //This will bind and buffer all the data from the model
-    public void renderModel(Model model) {
+    //This will bind the models vao and vbo
+    protected void bindModel(Model model) {
 
         //Bind the vao and vbo
         glBindVertexArray(model.getVaoID());
         glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesID());
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(0);
+    }
 
-        //Draw the shape
-        glDrawArrays(GL_TRIANGLES, 0, model.getVerticesSize());
-        glDisableVertexAttribArray(0);
+    //This will clear any vao and vbo bindings
+    protected void unbindModel() {
 
         //Unbind the vao and vbo
+        glDisableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
     }
 
-    //This will render a model based on its position and the MVP matrix
-    public void renderEntity(Entity entity, Matrix4f view, Matrix4f projection) {
+    //This will bind and buffer all the data from the model
+    public void renderModel(Model model) {
 
+        //Bind and render the model
+        bindModel(model);
+        glDrawArrays(GL_TRIANGLES, 0, model.getVerticesSize());
+        unbindModel();
+    }
 
-        //This will fetch the values from the perspective and put them
-        //into a buffer array due to the Matrix4f not putting correctly
-        //into a float buffer
-        //Send the projection
+    //This will send a Matrix4f to the shader as a uniform variable
+    protected void sendMatrices(Matrix4f matrix, int uniformLocation) {
+
+        //Create the buffer and buffer the data to it
         float[] array = new float[16];
-        int projectionUni = glGetUniformLocation(programID, "projection");
-        FloatBuffer projectionBuffer = BufferUtils.createFloatBuffer(16);
-        projection.get(array);
-        projectionBuffer.put(array).flip();
-        glUniformMatrix4fv(projectionUni, false, projectionBuffer);
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
+        matrix.get(array);
+        buffer.put(array).flip();
+        glUniformMatrix4fv(uniformLocation, false, buffer);
+    }
 
-        //Send the view
-        int viewUni = glGetUniformLocation(programID, "view");
-        FloatBuffer viewBuffer = BufferUtils.createFloatBuffer(16);
-        view.get(array);
-        viewBuffer.put(array).flip();
-        glUniformMatrix4fv(viewUni, false, viewBuffer);
+    //This will create and return a model matrix for the MVP matrix
+    protected Matrix4f createModelMatrix(Entity entity) {
 
         //Send the model
-        int modelUni = glGetUniformLocation(programID, "model");
-        FloatBuffer modelBuffer = BufferUtils.createFloatBuffer(16);
-        Matrix4f model = new Matrix4f();
-
-        //Scale and translation
-        Matrix4f scale = model.scale(entity.getScale(), new Matrix4f());
-        Matrix4f translation = model.translate(entity.getPosition(), new Matrix4f());
+        Matrix4f matrix = new Matrix4f();
+        Matrix4f scale = matrix.scale(entity.getScale(), new Matrix4f());
+        Matrix4f translation = matrix.translate(entity.getPosition(), new Matrix4f());
 
         //Rotation
         Vector3f rot = entity.getRotation();
@@ -86,31 +82,25 @@ public class Renderer {
         Matrix4f rotation = rotationX.mul(rotationY).mul(rotationZ);
 
         //Assemble the model matrix
-        model.mul(translation).mul(rotation).mul(scale);
+        matrix.mul(translation).mul(rotation).mul(scale);
+        return matrix;
+    }
 
-        model.get(array);
-        modelBuffer.put(array).flip();
-        glUniformMatrix4fv(modelUni, false, modelBuffer);
+    //This will render a model based on its position and the MVP matrix
+    public void renderEntity(Entity entity, Matrix4f view, Matrix4f projection) {
+
+        //Create the model matrix
+        Matrix4f model = createModelMatrix(entity);
+
+        //Send the matrices
+        int projectionUni = glGetUniformLocation(programID, "projection");
+        int viewUni = glGetUniformLocation(programID, "view");
+        int modelUni = glGetUniformLocation(programID, "model");
+        sendMatrices(projection, projectionUni);
+        sendMatrices(view, viewUni);
+        sendMatrices(model, modelUni);
 
         //Bind the vao and vbo from the model
         renderModel(entity.getModel());
-    }
-
-    //Render a model, using instanced rendering
-    public void renderInstanced(Model model) {
-
-        //Bind the vao and vbo
-        glBindVertexArray(model.getVaoID());
-        glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesID());
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-        glEnableVertexAttribArray(0);
-
-        //Draw the shape
-        glDrawArraysInstanced(GL_TRIANGLES, 0, model.getVerticesSize(), 5);
-        glDisableVertexAttribArray(0);
-
-        //Unbind the vao and vbo
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
     }
 }
