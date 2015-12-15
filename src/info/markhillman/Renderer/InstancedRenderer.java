@@ -47,7 +47,7 @@ public class InstancedRenderer extends Renderer{
                 map.put(entity.getModel(), list);
             }
         }
-        System.out.println(map);
+        //System.out.println(map);
         return map;
     }
     public Map<Model, List<Entity>> assembleMap(Entity[] entities) {

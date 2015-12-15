@@ -50,6 +50,9 @@ public class Entity {
     public void move(Vector3f direction) {
         position.add(direction);
     }
+    public void run() {
+
+    }
     public String toString() {
         return "Position: " + position.toString();
     }

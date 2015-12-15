@@ -162,16 +162,12 @@ public class Engine {
         InstancedRenderer renderer = new InstancedRenderer(programID);
         List<Entity> entities = new ArrayList<>(0);
         Boid boid = new Boid();
-        Entity entity = new Entity();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 500; i++) {
             Boid b = boid.clone();
-            b.setPosition(new Vector3f(i, 0, 0));
+            b.setPosition(new Vector3f((float)(Math.random() * 80) - 40,
+                    (float)(Math.random() * 80) - 40,
+                    (float)(Math.random() * 80) - 40));
             entities.add(b);
-        }
-        for (int i = 0; i < 5; i++) {
-            Entity e = entity.clone();
-            e.setPosition(new Vector3f(5 + (i * 2), 0, 0));
-            entities.add(e);
         }
         Map<Model, List<Entity>> map = renderer.assembleMap(entities);
 
@@ -182,6 +178,10 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //Render the map of entities
+            for (Entity entity : entities) {
+                entity.run();
+            }
+            //System.out.println(boid.boids);
             renderer.renderEntityMap(map, camera.getView(), camera.getProjection());
 
             //Poll for events and make use of key callback
