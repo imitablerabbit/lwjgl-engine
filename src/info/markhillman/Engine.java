@@ -162,7 +162,7 @@ public class Engine {
         InstancedRenderer renderer = new InstancedRenderer(programID);
         List<Entity> entities = new ArrayList<>(0);
         Boid boid = new Boid();
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 1000; i++) {
             Boid b = boid.clone();
             b.setPosition(new Vector3f((float)(Math.random() * 80) - 40,
                     (float)(Math.random() * 80) - 40,

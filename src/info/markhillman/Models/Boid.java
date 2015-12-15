@@ -35,45 +35,54 @@ public class Boid extends Entity {
     @Override
     public void run() {
         flock();
-        update();
+        move();
         borders();
     }
 
     //Flock the boids
     private void flock() {
 
-        //Create the separation, cohesion and align
-        Vector3f sep = separation();
-        Vector3f coh = cohesion();
-        Vector3f ali = align();
-
-        //Add the vectors to the acceleration
-        acceleration.add(sep);
-        acceleration.add(coh);
-        acceleration.add(ali);
+        Vector3f alignment = new Vector3f();
+        Vector3f cohesion = new Vector3f();
+        Vector3f separation = new Vector3f();
 
         for (Boid boid : boids) {
-            //Align the boids
+
             float distance = getPosition().distance(boid.getPosition());
             if (distance < 8f && boid != this) {
-                acceleration.sub(getPosition().sub(boid.getPosition(), new Vector3f()));
 
-                //Separation
+                //Align the boids
+                alignment.add(boid.velocity);
+                alignment.normalize();
+
+                //Move the boids together
                 if (distance < 6f) {
-                    acceleration.add(getPosition().sub(boid.getPosition(), new Vector3f()).mul(1.5f));
+                    cohesion.add(boid.getPosition().sub(getPosition(), new Vector3f()));
+                    cohesion.normalize();
                 }
-                acceleration.normalize();
+
+                //Keep the boids from getting too close
+                if (distance < 4f) {
+                    separation.add(getPosition().sub(boid.getPosition(), new Vector3f()));
+                    separation.normalize();
+                }
                 limitVector(acceleration, new Vector3f(maxSpeed));
             }
         }
+        acceleration.add(alignment);
+        acceleration.add(cohesion);
+        acceleration.add(separation);
+        acceleration.normalize();
+
+        //Make the acceleration smaller
+        acceleration.div(100);
     }
 
-    //Update the boid
-    private void update() {
+    //Update the boids velocity
+    private void move() {
         velocity.add(acceleration);
         limitVector(velocity, new Vector3f(maxSpeed));
         getPosition().add(velocity);
-        acceleration.mul(0);
     }
 
     //Steer the boids making flocking behaviour
