@@ -53,7 +53,7 @@ public class InstancedRenderer extends Renderer{
     public Map<Model, List<Entity>> assembleMap(Entity[] entities) {
 
         //Create a list from the array
-        List list = new ArrayList<>(entities.length);
+        List<Entity> list = new ArrayList<>(entities.length);
         for (Entity entity : entities) {
             list.add(entity);
         }
