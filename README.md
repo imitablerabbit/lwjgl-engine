@@ -55,7 +55,6 @@
     <li>Add a Scene class to contain the camera</li>
     <li>Look into creating the matrices within the entities instead of the renderer</li>
     <ul>
-        <li>Create the rotational matrices</li>
         <li>Create the model matrices</li>
     </ul>
     <li>Create the OBJ Loader</li>
@@ -65,6 +64,7 @@
 
 <h2>Change Log:</h2>
 <ul>
+    <li>Create the rotational matrices for the entities file</li>
     <li>Fix the boid class</li>
     <li>Add a list of all the boids created so they can affect each other</li>
     <li>Create instance rendering method for multiple entities</li>
