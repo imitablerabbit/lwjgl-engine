@@ -14,17 +14,15 @@ import java.util.List;
 public class Boid extends Entity {
 
     //Create an array of all the boids created
-    public static List<Boid> boids = new ArrayList<>(0);
-    private Vector3f velocity;
-    private Vector3f acceleration;
+    public static List<Boid> boids = new ArrayList<>(0);    
     private float maxSpeed = 0.05f;
 
     public Boid(Vector3f position) {
         super(position, new Vector3f(0.2f, 0.6f, 1f), new Vector3f(0));
-        velocity = new Vector3f((float)(Math.random() - 0.5),
+        setVelocity(new Vector3f((float)(Math.random() - 0.5),
                 (float)(Math.random() - 0.5),
-                (float)(Math.random() - 0.5));
-        acceleration = new Vector3f(0);
+                (float)(Math.random() - 0.5)));
+        setAcceleration(new Vector3f(0));
         boids.add(this);
     }
     public Boid() {
@@ -51,7 +49,7 @@ public class Boid extends Entity {
             if (distance < 8f && boid != this) {
 
                 //Align the boids
-                alignment.add(boid.velocity);
+                alignment.add(boid.getVelocity());
                 alignment.normalize();
 
                 //Move the boids together
@@ -65,23 +63,23 @@ public class Boid extends Entity {
                     separation.add(getPosition().sub(boid.getPosition(), new Vector3f()));
                     separation.normalize();
                 }
-                limitVector(acceleration, new Vector3f(maxSpeed));
+                limitVector(getAcceleration(), new Vector3f(maxSpeed));
             }
         }
-        acceleration.add(alignment);
-        acceleration.add(cohesion);
-        acceleration.add(separation);
-        acceleration.normalize();
+        getAcceleration().add(alignment);
+        getAcceleration().add(cohesion);
+        getAcceleration().add(separation);
+        getAcceleration().normalize();
 
         //Make the acceleration smaller
-        acceleration.div(200);
+        getAcceleration().div(200);
     }
 
     //Update the boids velocity
-    private void move() {
-        velocity.add(acceleration);
-        limitVector(velocity, new Vector3f(maxSpeed));
-        getPosition().add(velocity);
+    public void move() {
+        getVelocity().add(getAcceleration());
+        limitVector(getVelocity(), new Vector3f(maxSpeed));
+        getPosition().add(getVelocity());
     }
 
     //Make sure the boid doesnt leave the area
