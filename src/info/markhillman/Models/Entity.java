@@ -22,6 +22,9 @@ public class Entity {
     public Entity() {
         this(new Model(), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
     }
+    public Entity(Model model) {
+        this(model, new Vector3f());
+    }
     public Entity(Vector3f position) {
         this(new Model(), position, new Vector3f(1, 1, 1));
     }

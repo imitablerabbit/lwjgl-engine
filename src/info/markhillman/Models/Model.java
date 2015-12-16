@@ -14,7 +14,6 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
  * vao and the vertices vbo.
  * Created by Mark on 04/12/2015.
  */
-// TODO: 06/12/2015 Turn this into a model
 public class Model {
 
     private int vaoID;
@@ -51,6 +50,7 @@ public class Model {
         glBindVertexArray(0);
     }
 
+    //Getters and Setters
     public int getVaoID() {
         return this.vaoID;
     }
