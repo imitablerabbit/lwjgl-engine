@@ -53,15 +53,20 @@
 <h2>To Do:</h2>
 <ul>
     <li>Add a Scene class to contain the camera</li>
-    <li>Add some functionality to the Boid class</li>
-    <li>Look into creating the matrices within the classes instead of the renderer</li>
-    <li>Add a list of all the boids created so they can affect each other</li>
+    <li>Look into creating the matrices within the entities instead of the renderer</li>
+    <ul>
+        <li>Create the rotational matrices</li>
+        <li>Create the model matrices</li>
+    </ul>
+    <li>Create the OBJ Loader</li>
+    <li>Add support for VBO indexing</li>
     <li>Organise some of the code</li>
-    <li>Make sure that the boid acceleration are not always being added in a positive direction
 </ul>
 
 <h2>Change Log:</h2>
 <ul>
+    <li>Fix the boid class</li>
+    <li>Add a list of all the boids created so they can affect each other</li>
     <li>Create instance rendering method for multiple entities</li>
     <li>Added support for scaling and rotation</li>
     <li>Created the Boid class</li>
