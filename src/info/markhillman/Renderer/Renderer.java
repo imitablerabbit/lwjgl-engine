@@ -75,11 +75,7 @@ public class Renderer {
         Matrix4f translation = matrix.translate(entity.getPosition(), new Matrix4f());
 
         //Rotation
-        Vector3f rot = entity.getRotation();
-        Matrix4f rotationX = new Matrix4f().rotationX(rot.x);
-        Matrix4f rotationY = new Matrix4f().rotationY(rot.y);
-        Matrix4f rotationZ = new Matrix4f().rotationZ(rot.z);
-        Matrix4f rotation = rotationX.mul(rotationY).mul(rotationZ);
+        Matrix4f rotation = entity.getRotationalMatrix();
 
         //Assemble the model matrix
         matrix.mul(translation).mul(rotation).mul(scale);
