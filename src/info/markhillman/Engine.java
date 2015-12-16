@@ -178,9 +178,8 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //Render the map of entities
-            for (Entity entity : entities) {
-                entity.run();
-            }
+            entities.forEach(entity -> entity.run());
+
             //System.out.println(boid.boids);
             renderer.renderEntityMap(map, camera.getView(), camera.getProjection());
 

@@ -47,7 +47,6 @@ public class Boid extends Entity {
         Vector3f separation = new Vector3f();
 
         for (Boid boid : boids) {
-
             float distance = getPosition().distance(boid.getPosition());
             if (distance < 8f && boid != this) {
 
@@ -75,7 +74,7 @@ public class Boid extends Entity {
         acceleration.normalize();
 
         //Make the acceleration smaller
-        acceleration.div(100);
+        acceleration.div(200);
     }
 
     //Update the boids velocity
@@ -83,17 +82,6 @@ public class Boid extends Entity {
         velocity.add(acceleration);
         limitVector(velocity, new Vector3f(maxSpeed));
         getPosition().add(velocity);
-    }
-
-    //Steer the boids making flocking behaviour
-    private Vector3f separation() {
-        return new Vector3f();
-    }
-    private Vector3f cohesion() {
-        return new Vector3f();
-    }
-    private Vector3f align() {
-        return new Vector3f();
     }
 
     //Make sure the boid doesnt leave the area
