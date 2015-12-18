@@ -57,13 +57,13 @@
     <ul>
         <li>Create the model matrices</li>
     </ul>
-    <li>Create the OBJ Loader</li>
     <li>Add support for VBO indexing</li>
     <li>Organise some of the code</li>
 </ul>
 
 <h2>Change Log:</h2>
 <ul>
+    <li>Create the OBJ Loader</li>
     <li>Create the rotational matrices for the entities file</li>
     <li>Fix the boid class</li>
     <li>Add a list of all the boids created so they can affect each other</li>
