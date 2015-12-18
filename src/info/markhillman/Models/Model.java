@@ -3,6 +3,7 @@ package info.markhillman.Models;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
@@ -27,10 +28,23 @@ public class Model {
                 0.0f,  1.0f, -0.0f
         });
     }
+    public Model(List<Float> vertices) {
+        float[] temp = new float[vertices.size()];
+        for (int i = 0; i < vertices.size(); i++) {
+            temp[i] = vertices.get(i);
+        }
+        this.vertices = temp;
+        bindVertices();
+    }
     public Model(float[] vertices) {
 
         //Set the variables
         this.vertices = vertices;
+        bindVertices();
+    }
+
+    //Generate the vao and vbo
+    private void bindVertices() {
 
         //Create and bind a VAO
         this.vaoID = glGenVertexArrays();

@@ -3,6 +3,7 @@ package info.markhillman;
 import info.markhillman.Models.Boid;
 import info.markhillman.Models.Entity;
 import info.markhillman.Models.Model;
+import info.markhillman.Models.ModelLoader;
 import info.markhillman.Renderer.InstancedRenderer;
 import info.markhillman.Scene.Camera;
 import info.markhillman.Utils.EulerAngle;

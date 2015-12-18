@@ -16,13 +16,23 @@ public class Boid extends Entity {
     //Create an array of all the boids created
     public static List<Boid> boids = new ArrayList<>(0);    
     private float maxSpeed = 0.05f;
+    private ModelLoader loader = new ModelLoader();
 
     public Boid(Vector3f position) {
-        super(position, new Vector3f(0.2f, 0.6f, 1f), new Vector3f(0));
-        setVelocity(new Vector3f((float)(Math.random() - 0.5),
+        super(position, new Vector3f(1), new Vector3f(0));
+        setVelocity(new Vector3f(
                 (float)(Math.random() - 0.5),
-                (float)(Math.random() - 0.5)));
+                (float)(Math.random() - 0.5),
+                (float)(Math.random() - 0.5)
+        ));
         setAcceleration(new Vector3f(0));
+
+        //Get any previous boids models for flyweight
+        if (boids.size() > 0)
+            setModel(boids.get(0).getModel());
+        else
+            setModel(loader.loadOBJModel("models/sphere.obj"));
+
         boids.add(this);
     }
     public Boid() {
