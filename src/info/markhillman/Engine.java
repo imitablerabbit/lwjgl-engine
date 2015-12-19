@@ -153,6 +153,7 @@ public class Engine {
         //Let LWJGL and openGL work together using GLFW
         GL.createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glEnable(GL_DEPTH_TEST);
 
         //Create the shader program
         ShaderLoader shaderLoader = new ShaderLoader("Shaders/vertex.shader", "Shaders/fragment.shader");
@@ -163,11 +164,14 @@ public class Engine {
         InstancedRenderer renderer = new InstancedRenderer(programID);
         List<Entity> entities = new ArrayList<>(0);
         Boid boid = new Boid();
-        for (int i = 0; i < 1000; i++) {
+
+        for (int i = 0; i < 500; i++) {
             Boid b = boid.clone();
-            b.setPosition(new Vector3f((float)(Math.random() * 80) - 40,
+            b.setPosition(new Vector3f(
                     (float)(Math.random() * 80) - 40,
-                    (float)(Math.random() * 80) - 40));
+                    (float)(Math.random() * 80) - 40,
+                    (float)(Math.random() * 80) - 40)
+            );
             entities.add(b);
         }
         Map<Model, List<Entity>> map = renderer.assembleMap(entities);

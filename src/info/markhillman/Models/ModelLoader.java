@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Class: ModelLoader
@@ -25,7 +26,9 @@ public class ModelLoader {
 
         Model model = new Model();
         List<Vector3f> vertices = new ArrayList<>(0);
+        List<Vector3f> normals = new ArrayList<>(0);
         List<Integer> vertexIndices = new ArrayList<>(0);
+        List<Integer> normalsIndices = new ArrayList<>(0);
 
         //Read from the OBJ file
         try {
@@ -61,7 +64,21 @@ public class ModelLoader {
                 else if (words[0].equals("vt")) {}
 
                 //This is the normal
-                else if (words[0].equals("vn")) {}
+                else if (words[0].equals("vn")) {
+                    if (words.length == 4) {
+                        //Add each of the components to the array
+                        Vector3f normal = new Vector3f(
+                                Float.parseFloat(words[1]),
+                                Float.parseFloat(words[2]),
+                                Float.parseFloat(words[3])
+                        );
+                        normals.add(normal);
+                    }
+                    else {
+                        System.out.println("The normal at line " + lineNumber + " does not have 3 components");
+                        break;
+                    }
+                }
 
                 //This is the face so we can create the vertexIndices
                 else if (words[0].equals("f")) {
@@ -71,8 +88,12 @@ public class ModelLoader {
                         for (int i = 0; i < 3; i++) {
                             String[] components = words[1 + i].split("/");
                             if (!components[0].equals("")) {
-                                Integer vertexID = Integer.parseInt(components[0]);
+                                int vertexID = Integer.parseInt(components[0]);
                                 vertexIndices.add(vertexID);
+                            }
+                            if (!components[2].equals("")) {
+                                int normalID = Integer.parseInt(components[2]);
+                                normalsIndices.add(normalID);
                             }
                         }
                     }
@@ -85,20 +106,31 @@ public class ModelLoader {
             }
 
             List<Float> verticesTemp = new ArrayList<>(0);
+            List<Float> normalsTemp = new ArrayList<>(0);
 
             //Assemble the vertices for the model
             for (int i = 0; i < vertexIndices.size(); i++) {
 
                 //Get the indices of its attributes
                 if (vertexIndices.size() > 0) {
-                    int vertexIndex = vertexIndices.get(i);
-                    verticesTemp.add(vertices.get(vertexIndex - 1).x);
-                    verticesTemp.add(vertices.get(vertexIndex - 1).y);
-                    verticesTemp.add(vertices.get(vertexIndex - 1).z);
+
+                    //Get the vertex
+                    int index = vertexIndices.get(i);
+                    verticesTemp.add(vertices.get(index - 1).x);
+                    verticesTemp.add(vertices.get(index - 1).y);
+                    verticesTemp.add(vertices.get(index - 1).z);
+
+                    //Get the normal
+                    if (normals.size() > 0) {
+                        index = normalsIndices.get(i);
+                        normalsTemp.add(normals.get(index - 1).x);
+                        normalsTemp.add(normals.get(index - 1).y);
+                        normalsTemp.add(normals.get(index - 1).z);
+                    }
                 }
             }
 
-            model = new Model(verticesTemp);
+            model = new Model(verticesTemp, normalsTemp);
         }
         catch (IOException e) {
             e.printStackTrace();

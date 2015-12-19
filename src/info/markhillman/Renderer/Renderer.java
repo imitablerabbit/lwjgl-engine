@@ -35,6 +35,10 @@ public class Renderer {
         glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesID());
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, model.getNormalsID());
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+        glEnableVertexAttribArray(1);
     }
 
     //This will clear any vao and vbo bindings
