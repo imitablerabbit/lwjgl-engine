@@ -10,17 +10,21 @@
 <h3>Compiling:</h3>
 <p>
     In order to compile the java source files, you can use the javac command from the root of the project files:
-    <code>
-        javac -d "out/production/Engine" -cp "libs/lwjgl.jar;out/production/Engine/" src/info/markhillman/Models/\*.java src/info/markhillman/Renderer/\*.java src/info/markhillman/Scene/\*.java src/info/markhillman/Utils/\*.java src/info/markhillman/\*.java
-    </code>
+</p>
+<code>
+    javac -d "out/production/Engine" -cp "libs/lwjgl.jar;out/production/Engine/" src/info/markhillman/Models/\*.java src/info/markhillman/Renderer/\*.java src/info/markhillman/Scene/\*.java src/info/markhillman/Utils/\*.java src/info/markhillman/\*.java
+</code>
+<p>
     This will compile the files into the out/production/Engine file path.
 </p>
 <h3>Running:</h3>
 <p>
     In order to run the java class files, you can use the java command from the root of the project files:
-    <code>
-        java -Djava.library.path=libs/ -cp "out/production/Engine/;libs/lwjgl.jar" info.markhillman.Main
-    </code>
+</p>
+<code>
+    java -Djava.library.path=libs/ -cp "out/production/Engine/;libs/lwjgl.jar" info.markhillman.Main
+</code>
+<p>
     When this command is run a window will open up and display an exhibition of what the engine can currently do.
 </p>
 
