@@ -26,6 +26,10 @@ java -Djava.library.path=libs/ -cp "out/production/Engine/;libs/lwjgl.jar" info.
 
 When this command is run a window will open up and display an exhibition of what the engine can currently do.
 
+##Screenshots##
+
+![Boid simulation screenshot](/res/screenshots/screenshot1.png?raw=true "Boid Simulation")
+
 ##To Do:##
 - Add a Scene class to contain the camera</li>
 - Look into creating the matrices within the entities instead of the renderer
