@@ -15,7 +15,7 @@ public class Boid extends Entity {
 
     //Create an array of all the boids created
     public static List<Boid> boids = new ArrayList<>(0);    
-    private float maxSpeed = 0.05f;
+    private float maxSpeed = 0.08f;
 
     public Boid(Vector3f position) {
         super(position);
@@ -83,7 +83,7 @@ public class Boid extends Entity {
         getAcceleration().normalize();
 
         //Make the acceleration smaller
-        getAcceleration().div(200);
+        getAcceleration().div(300);
     }
 
     //Update the boids velocity

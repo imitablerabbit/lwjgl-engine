@@ -172,6 +172,7 @@ public class Engine {
                     (float)(Math.random() * 80) - 40,
                     (float)(Math.random() * 80) - 40)
             );
+            b.setScale(new Vector3f(0.8f));
             entities.add(b);
         }
         Map<Model, List<Entity>> map = renderer.assembleMap(entities);
