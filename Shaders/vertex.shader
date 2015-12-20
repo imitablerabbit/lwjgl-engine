@@ -12,6 +12,7 @@ uniform mat4 model;
 //Out variables
 out vec3 surfaceNormal;
 out vec3 toLightVector;
+out vec3 toCameraVector;
 
 mat4 view_projection;
 mat4 model_view_projection;
@@ -29,4 +30,5 @@ void main() {
     //Send the surface normal
     surfaceNormal = (model * vec4(normal, 0.0)).xyz;
     toLightVector = vec3(0,0,0) - worldPosition.xyz;
+    toCameraVector = (inverse(view) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 }

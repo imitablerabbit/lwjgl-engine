@@ -87,7 +87,7 @@ public class Engine {
         glfwSetCursorPos(window.getId(), 0, 0);
 
         //Create the camera
-        camera = new Camera(new Vector3f(0, 0, 3), 0, 180);
+        camera = new Camera(new Vector3f(0, 0, 0), 0, 180);
 
         //Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window.getId(), keyCallback = new GLFWKeyCallback() {
