@@ -154,6 +154,7 @@ public class Engine {
         GL.createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         //Create the shader program
         ShaderLoader shaderLoader = new ShaderLoader("Shaders/vertex.shader", "Shaders/fragment.shader");
@@ -165,12 +166,12 @@ public class Engine {
         List<Entity> entities = new ArrayList<>(0);
         Boid boid = new Boid();
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 50; i++) {
             Boid b = boid.clone();
             b.setPosition(new Vector3f(
-                    (float)(Math.random() * 80) - 40,
-                    (float)(Math.random() * 80) - 40,
-                    (float)(Math.random() * 80) - 40)
+                    (float)(Math.random() * 40) - 20,
+                    (float)(Math.random() * 40) - 20,
+                    (float)(Math.random() * 40) - 20)
             );
             b.setScale(new Vector3f(0.8f));
             entities.add(b);

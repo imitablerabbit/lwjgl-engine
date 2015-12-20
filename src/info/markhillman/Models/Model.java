@@ -23,6 +23,7 @@ public class Model {
     private int normalsID;
     private float[] vertices;
     private float[] normals;
+    private Material material;
 
     public Model() {
         this(new float[] {
@@ -31,6 +32,22 @@ public class Model {
                 0.0f,  1.0f, -0.0f
         });
     }
+
+    //Array constructors
+    public Model(float[] vertices) {
+        this(vertices, new float[vertices.length], new Material());
+    }
+    public Model(float[] vertices, float[] normals) {
+        this(vertices, normals, new Material());
+    }
+    public Model(float[] vertices, float[] normals, Material material) {
+        this.vertices = vertices;
+        this.normals = normals;
+        this.material = material;
+        bindAttributes();
+    }
+
+    //List constructors
     public Model(List<Float> vertices) {
         float[] verticesTemp = new float[vertices.size()];
         for (int i = 0; i < vertices.size(); i++) {
@@ -38,16 +55,12 @@ public class Model {
         }
         this.vertices = verticesTemp;
         this.normals = new float[vertices.size()];
-    }
-    public Model(float[] vertices) {
-        this(vertices, new float[vertices.length]);
-    }
-    public Model(float[] vertices, float[] normals) {
-        this.vertices = vertices;
-        this.normals = normals;
-        bindAttributes();
+        this.material = new Material();
     }
     public Model(List<Float> vertices, List<Float> normals) {
+        this(vertices, normals, new Material());
+    }
+    public Model(List<Float> vertices, List<Float> normals, Material material) {
         float[] verticesTemp = new float[vertices.size()];
         float[] normalsTemp = new float[vertices.size()];
         for (int i = 0; i < vertices.size(); i++) {
@@ -56,6 +69,7 @@ public class Model {
         }
         this.vertices = verticesTemp;
         this.normals = normalsTemp;
+        this.material = material;
         bindAttributes();
     }
 
@@ -110,5 +124,11 @@ public class Model {
     }
     public int getNormalsID() {
         return normalsID;
+    }
+    public Material getMaterial() {
+        return material;
+    }
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 }

@@ -1,6 +1,7 @@
 package info.markhillman.Renderer;
 
 import info.markhillman.Models.Entity;
+import info.markhillman.Models.Material;
 import info.markhillman.Models.Model;
 import org.joml.Matrix4f;
 
@@ -68,16 +69,8 @@ public class InstancedRenderer extends Renderer{
             bindModel(entry.getKey());
             for (Entity entity : entry.getValue()) {
 
-                //Create the model matrix
-                Matrix4f model = createModelMatrix(entity);
-
-                //Send the matrices as uniforms
-                int projectionUni = glGetUniformLocation(programID, "projection");
-                int viewUni = glGetUniformLocation(programID, "view");
-                int modelUni = glGetUniformLocation(programID, "model");
-                sendMatrices(projection, projectionUni);
-                sendMatrices(view, viewUni);
-                sendMatrices(model, modelUni);
+                //Send the uniform data
+                sendUniforms(entity, view, projection);
 
                 //Make a call to the render function
                 glDrawArrays(GL_TRIANGLES, 0, entry.getKey().getVerticesSize());

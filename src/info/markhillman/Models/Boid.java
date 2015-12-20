@@ -1,5 +1,7 @@
 package info.markhillman.Models;
 
+import info.markhillman.Utils.EulerAngle;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class Boid extends Entity {
 
     //Create an array of all the boids created
     public static List<Boid> boids = new ArrayList<>(0);    
-    private float maxSpeed = 0.08f;
+    private float maxSpeed = 0.1f;
 
     public Boid(Vector3f position) {
         super(position);
@@ -31,7 +33,7 @@ public class Boid extends Entity {
             setModel(boids.get(0).getModel());
         else {
             ModelLoader loader = new ModelLoader();
-            setModel(loader.loadOBJModel("models/sphere.obj"));
+            setModel(loader.loadOBJModel("models/cube.obj"));
         }
 
         boids.add(this);
@@ -129,5 +131,15 @@ public class Boid extends Entity {
     public Boid clone() {
         Boid boid = new Boid(getPosition());
         return boid;
+    }
+
+    @Override
+    public Matrix4f getRotationalMatrix() {
+
+        EulerAngle angle = new EulerAngle(getVelocity().x, getVelocity().y, getVelocity().z);
+        Vector3f direction = new Vector3f();
+        direction = angle.toVector();
+
+        return new Matrix4f().lookAt(getPosition(), getPosition().sub(getVelocity(), new Vector3f()).normalize(new Vector3f()), new Vector3f(0, 1, 0));
     }
 }

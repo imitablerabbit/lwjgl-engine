@@ -1,9 +1,9 @@
 package info.markhillman.Renderer;
 
 import info.markhillman.Models.Entity;
+import info.markhillman.Models.Material;
 import info.markhillman.Models.Model;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -16,7 +16,9 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 /**
  * Class: Renderer
- * Description: This class will render any model and entity
+ * Description: This class will render any model and entity as
+ * well as send all of the information to the shader such
+ * as the vertices or the uniform variables.
  * Created by Mark on 04/12/2015.
  */
 public class Renderer {
@@ -60,7 +62,10 @@ public class Renderer {
     }
 
     //This will send a Matrix4f to the shader as a uniform variable
-    protected void sendMatrices(Matrix4f matrix, int uniformLocation) {
+    protected void sendMatrices(Matrix4f matrix, String uniformName) {
+
+        //Create the uniformLoaction
+        int uniformLocation = glGetUniformLocation(programID, uniformName);
 
         //Create the buffer and buffer the data to it
         float[] array = new float[16];
@@ -68,6 +73,16 @@ public class Renderer {
         matrix.get(array);
         buffer.put(array).flip();
         glUniformMatrix4fv(uniformLocation, false, buffer);
+    }
+
+    //This will create and load a float into a uniform variable
+    protected void sendFloat(float f, String uniformName) {
+
+        //Create the uniformLocation
+        int uniformLocation = glGetUniformLocation(programID, uniformName);
+
+        //Send the uniform data
+        glUniform1f(uniformLocation, f);
     }
 
     //This will create and return a model matrix for the MVP matrix
@@ -86,19 +101,27 @@ public class Renderer {
         return matrix;
     }
 
-    //This will render a model based on its position and the MVP matrix
-    public void renderEntity(Entity entity, Matrix4f view, Matrix4f projection) {
+    //Send unform data
+    protected void sendUniforms(Entity entity, Matrix4f view, Matrix4f projection) {
 
         //Create the model matrix
         Matrix4f model = createModelMatrix(entity);
 
         //Send the matrices
-        int projectionUni = glGetUniformLocation(programID, "projection");
-        int viewUni = glGetUniformLocation(programID, "view");
-        int modelUni = glGetUniformLocation(programID, "model");
-        sendMatrices(projection, projectionUni);
-        sendMatrices(view, viewUni);
-        sendMatrices(model, modelUni);
+        sendMatrices(projection, "projection");
+        sendMatrices(view, "view");
+        sendMatrices(model, "model");
+
+        //Send the models material
+        Material material = entity.getModel().getMaterial();
+        sendFloat(material.getDampening(), "dampening");
+        sendFloat(material.getReflectivity(), "reflectivity");
+    }
+
+    //This will render a model based on its position and the MVP matrix
+    public void renderEntity(Entity entity, Matrix4f view, Matrix4f projection) {
+
+        sendUniforms(entity, view, projection);
 
         //Bind the vao and vbo from the model
         renderModel(entity.getModel());
