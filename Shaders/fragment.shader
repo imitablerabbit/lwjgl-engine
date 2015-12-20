@@ -3,11 +3,11 @@
 in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
+in float dampening_fragment;
+in float reflectivity_fragment;
 
 vec3 lightColor = vec3(1, 1, 1);
 vec3 fragmentColor = vec3(1, 0, 0);
-float dampening = 5;
-float reflectivity = 1;
 
 out vec4 color;
 void main()
@@ -28,8 +28,8 @@ void main()
     specularFactor = max(specularFactor, 0.0);
 
     //Dampen the specular lighting according to the material
-    float dampedFactor = pow(specularFactor, dampening);
-    vec3 specular = reflectivity * dampedFactor * lightColor;
+    float dampedFactor = pow(specularFactor, dampening_fragment);
+    vec3 specular = reflectivity_fragment * dampedFactor * lightColor;
 
 	//Set the pixel output colour
 	color.rgb = (fragmentColor * diffuse) + specular;

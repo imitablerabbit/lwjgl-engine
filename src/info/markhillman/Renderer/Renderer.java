@@ -121,6 +121,7 @@ public class Renderer {
     //This will render a model based on its position and the MVP matrix
     public void renderEntity(Entity entity, Matrix4f view, Matrix4f projection) {
 
+        //Send the uniform variables to the shader
         sendUniforms(entity, view, projection);
 
         //Bind the vao and vbo from the model

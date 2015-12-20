@@ -1,7 +1,9 @@
 package info.markhillman.Models;
 
 import info.markhillman.Utils.EulerAngle;
+import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -136,10 +138,11 @@ public class Boid extends Entity {
     @Override
     public Matrix4f getRotationalMatrix() {
 
-        EulerAngle angle = new EulerAngle(getVelocity().x, getVelocity().y, getVelocity().z);
-        Vector3f direction = new Vector3f();
-        direction = angle.toVector();
+        Matrix4f matrix4f = new Matrix4f();
+        Quaternionf q = new Quaternionf();
+        q.lookRotate(getVelocity().normalize(new Vector3f()), new Vector3f(0, 1, 0));
+        q.get(matrix4f);
 
-        return new Matrix4f().lookAt(getPosition(), getPosition().sub(getVelocity(), new Vector3f()).normalize(new Vector3f()), new Vector3f(0, 1, 0));
+        return matrix4f;
     }
 }
