@@ -166,12 +166,12 @@ public class Engine {
         List<Entity> entities = new ArrayList<>(0);
         Boid boid = new Boid();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 500; i++) {
             Boid b = boid.clone();
             b.setPosition(new Vector3f(
-                    (float)(Math.random() * 40) - 20,
-                    (float)(Math.random() * 40) - 20,
-                    (float)(Math.random() * 40) - 20)
+                    (float)(Math.random() * 80) - 40,
+                    (float)(Math.random() * 80) - 40,
+                    (float)(Math.random() * 80) - 40)
             );
             b.setScale(new Vector3f(0.8f));
             entities.add(b);
