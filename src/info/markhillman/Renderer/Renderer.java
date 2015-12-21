@@ -90,11 +90,9 @@ public class Renderer {
 
         //Send the model
         Matrix4f matrix = new Matrix4f();
-        Matrix4f scale = matrix.scale(entity.getScale(), new Matrix4f());
-        Matrix4f translation = matrix.translate(entity.getPosition(), new Matrix4f());
-
-        //Rotation
-        Matrix4f rotation = entity.getRotationalMatrix();
+        Matrix4f scale = entity.getScaleMatrix();
+        Matrix4f translation = entity.getTranslationMatrix();
+        Matrix4f rotation = entity.getRotationMatrix();
 
         //Assemble the model matrix
         matrix.mul(translation).mul(rotation).mul(scale);

@@ -20,6 +20,7 @@ public class Boid extends Entity {
     //Create an array of all the boids created
     public static List<Boid> boids = new ArrayList<>(0);    
     private float maxSpeed = 0.1f;
+    private Matrix4f rotation;
 
     public Boid(Vector3f position) {
         super(position);
@@ -136,12 +137,18 @@ public class Boid extends Entity {
     }
 
     @Override
-    public Matrix4f getRotationalMatrix() {
+    public Matrix4f getRotationMatrix() {
+
+        return calculateRotationMatrix();
+    }
+
+    public Matrix4f calculateRotationMatrix() {
 
         Matrix4f matrix4f = new Matrix4f();
-        Quaternionf q = new Quaternionf();
-        q.lookRotate(getVelocity().normalize(new Vector3f()), new Vector3f(0, 1, 0));
-        q.get(matrix4f);
+        Quaternionf quaternionf = new Quaternionf();
+
+        quaternionf.lookRotate(getVelocity(), new Vector3f(0, 1, 0));
+        quaternionf.get(matrix4f);
 
         return matrix4f;
     }

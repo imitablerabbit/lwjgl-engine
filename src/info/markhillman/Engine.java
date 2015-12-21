@@ -35,7 +35,6 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 // TODO: 08/12/2015 Change the keycallback to modify booleans and then move the camera every frame based off those
 // TODO: 07/12/2015 Create an input handler
 // TODO: 07/12/2015 Create a scene class to hold the camera
-// TODO: 07/12/2015 Create a OBJLoader and use the Model position
 public class Engine {
 
     private GLFWErrorCallback errorCallback;
@@ -154,7 +153,6 @@ public class Engine {
         GL.createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         //Create the shader program
         ShaderLoader shaderLoader = new ShaderLoader("Shaders/vertex.shader", "Shaders/fragment.shader");
@@ -173,7 +171,7 @@ public class Engine {
                     (float)(Math.random() * 80) - 40,
                     (float)(Math.random() * 80) - 40)
             );
-            b.setScale(new Vector3f(0.8f, 0.3f, 0.3f));
+            b.setScale(new Vector3f(1f, 0.5f, 0.5f));
             entities.add(b);
         }
         Map<Model, List<Entity>> map = renderer.assembleMap(entities);

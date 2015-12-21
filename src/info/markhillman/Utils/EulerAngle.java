@@ -43,6 +43,29 @@ public class EulerAngle {
         return result;
     }
 
+    //Converts a vector back into its euler angles
+    public void toAngles(Vector3f direction) {
+
+        float pitchTemp = 0;
+        float yawTemp = 0;
+
+        //Normalize the vector
+        Vector3f dir = new Vector3f(direction);
+        dir.normalize();
+
+        //Calculate the yaw and the pitch from the direction vector
+        yawTemp = (float)Math.atan2(dir.x, dir.z);
+        pitchTemp = (float)Math.atan2(dir.y, Math.sqrt(dir.x * dir.x + dir.z * dir.z));
+
+        //Convert back into degrees
+        pitchTemp = (float)((pitchTemp * 180) / Math.PI);
+        yawTemp = (float)((yawTemp * 180) / Math.PI);
+
+        //Clockwise
+        this.pitch = -pitchTemp;
+        this.yaw = -yawTemp;
+    }
+
     //A constrain function
     public void constrain() {
 

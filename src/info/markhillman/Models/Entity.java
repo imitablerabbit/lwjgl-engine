@@ -68,13 +68,15 @@ public class Entity {
     }
 	
     //Getters and Setters
-    public Matrix4f getRotationalMatrix(){
-        Matrix4f rotationX = new Matrix4f().rotationX(rotation.x);
-        Matrix4f rotationY = new Matrix4f().rotationY(rotation.y);
-        Matrix4f rotationZ = new Matrix4f().rotationZ(rotation.z);
-        Matrix4f rotationMatrix = rotationX.mul(rotationY).mul(rotationZ);
-		return rotationMatrix;
+    public Matrix4f getRotationMatrix(){
+		return new Matrix4f().rotateXYZ(rotation.x, rotation.y, rotation.z);
 	}	
+    public Matrix4f getScaleMatrix(){
+		return new Matrix4f().scale(getScale());
+	}
+    public Matrix4f getTranslationMatrix(){
+		return new Matrix4f().translate(getPosition());
+	}
 	public Vector3f getRotationVector() {
         return rotation;
     }
