@@ -34,13 +34,27 @@ public class Renderer {
 
         //Bind the vao and vbo
         glBindVertexArray(model.getVaoID());
-        glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesID());
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-        glEnableVertexAttribArray(0);
 
-        glBindBuffer(GL_ARRAY_BUFFER, model.getNormalsID());
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
-        glEnableVertexAttribArray(1);
+        //Send the vertices
+        if (model.getVertices().length > 0) {
+            glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesID());
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+            glEnableVertexAttribArray(0);
+        }
+
+        //Send the normals
+        if (model.getNormals().length > 0) {
+            glBindBuffer(GL_ARRAY_BUFFER, model.getNormalsID());
+            glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+            glEnableVertexAttribArray(1);
+        }
+
+        //Send the uvs
+        if (model.getUvs().length > 0) {
+            glBindBuffer(GL_ARRAY_BUFFER, model.getUvsID());
+            glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
+            glEnableVertexAttribArray(2);
+        }
     }
 
     //This will clear any vao and vbo bindings
@@ -64,7 +78,7 @@ public class Renderer {
     //This will send a Matrix4f to the shader as a uniform variable
     protected void sendMatrices(Matrix4f matrix, String uniformName) {
 
-        //Create the uniformLoaction
+        //Create the uniformLocation
         int uniformLocation = glGetUniformLocation(programID, uniformName);
 
         //Create the buffer and buffer the data to it

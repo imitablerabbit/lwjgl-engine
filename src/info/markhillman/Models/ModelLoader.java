@@ -1,18 +1,19 @@
 package info.markhillman.Models;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Class: ModelLoader
  * Description: Load a model from a file into a Model
- * object
+ * object, including UV's and normals
  * Created by Mark on 16/12/2015.
  */
 public class ModelLoader {
@@ -27,8 +28,10 @@ public class ModelLoader {
         Model model = new Model();
         List<Vector3f> vertices = new ArrayList<>(0);
         List<Vector3f> normals = new ArrayList<>(0);
+        List<Vector2f> uvs = new ArrayList<>(0);
         List<Integer> vertexIndices = new ArrayList<>(0);
         List<Integer> normalsIndices = new ArrayList<>(0);
+        List<Integer> uvIndices = new ArrayList<>(0);
 
         //Read from the OBJ file
         try {
@@ -61,7 +64,20 @@ public class ModelLoader {
                 }
 
                 //This is UV coordonate
-                else if (words[0].equals("vt")) {}
+                else if (words[0].equals("vt")) {
+                    if (words.length == 3) {
+
+                        //Add the uv components to a vector
+                        Vector2f uv = new Vector2f(
+                                Float.parseFloat(words[1]),
+                                Float.parseFloat(words[2])
+                        );
+                        uvs.add(uv);
+                    }
+                    else {
+                        System.out.println("The UV at line " + lineNumber + "does not have 2 components");
+                    }
+                }
 
                 //This is the normal
                 else if (words[0].equals("vn")) {
@@ -91,6 +107,10 @@ public class ModelLoader {
                                 int vertexID = Integer.parseInt(components[0]);
                                 vertexIndices.add(vertexID);
                             }
+                            if (!components[1].equals("")) {
+                                int uvID = Integer.parseInt(components[1]);
+                                uvIndices.add(uvID);
+                            }
                             if (!components[2].equals("")) {
                                 int normalID = Integer.parseInt(components[2]);
                                 normalsIndices.add(normalID);
@@ -107,6 +127,7 @@ public class ModelLoader {
 
             List<Float> verticesTemp = new ArrayList<>(0);
             List<Float> normalsTemp = new ArrayList<>(0);
+            List<Float> uvsTemp = new ArrayList<>(0);
 
             //Assemble the vertices for the model
             for (int i = 0; i < vertexIndices.size(); i++) {
@@ -114,11 +135,22 @@ public class ModelLoader {
                 //Get the indices of its attributes
                 if (vertexIndices.size() > 0) {
 
+                    int index;
+
                     //Get the vertex
-                    int index = vertexIndices.get(i);
-                    verticesTemp.add(vertices.get(index - 1).x);
-                    verticesTemp.add(vertices.get(index - 1).y);
-                    verticesTemp.add(vertices.get(index - 1).z);
+                    if (uvs.size() > 0) {
+                        index = vertexIndices.get(i);
+                        verticesTemp.add(vertices.get(index - 1).x);
+                        verticesTemp.add(vertices.get(index - 1).y);
+                        verticesTemp.add(vertices.get(index - 1).z);
+                    }
+
+                    //Get the normal
+                    if (uvs.size() > 0) {
+                        index = uvIndices.get(i);
+                        uvsTemp.add(uvs.get(index - 1).x);
+                        uvsTemp.add(uvs.get(index - 1).y);
+                    }
 
                     //Get the normal
                     if (normals.size() > 0) {
@@ -130,7 +162,7 @@ public class ModelLoader {
                 }
             }
 
-            model = new Model(verticesTemp, normalsTemp);
+            model = new Model(verticesTemp, normalsTemp, uvsTemp);
         }
         catch (IOException e) {
             e.printStackTrace();
