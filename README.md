@@ -36,13 +36,15 @@ When this command is run a window will open up and display an exhibition of what
 
 ##To Do:##
 - Add a Scene class to contain the camera
-- Add support for texturing
-  - Create a TexturedModel class
-  - Add UVs to the textured models
+- Organise the Texturing code
 - Add support for VBO indexing
 - Organise some of the code
 
 ##Change Log:##
+- Added support for texturing
+  - Create a TexturedModel class
+  - Added UVs to the textured models
+  - Added a textured renderer
 - Look into creating the matrices within the entities instead of the renderer
   - Create the model matrices
 - Create the OBJ Loader
