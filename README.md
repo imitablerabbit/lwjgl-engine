@@ -28,16 +28,23 @@ When this command is run a window will open up and display an exhibition of what
 
 ##Screenshots##
 
-![Boid simulation screenshot](/res/screenshots/screenshot1.png?raw=true "Boid Simulation")
+###Cube Rotation###
+![Cube Rotation Simulation](/res/screenshots/cube.png?raw=true "Cube Rendering")
+
+###Boid Simulation###
+![Boid simulation screenshot](/res/screenshots/boids.png?raw=true "Boid Simulation")
 
 ##To Do:##
-- Add a Scene class to contain the camera</li>
-- Look into creating the matrices within the entities instead of the renderer
-  - Create the model matrices
+- Add a Scene class to contain the camera
+- Add support for texturing
+  - Create a TexturedModel class
+  - Add UVs to the textured models
 - Add support for VBO indexing
 - Organise some of the code
 
 ##Change Log:##
+- Look into creating the matrices within the entities instead of the renderer
+  - Create the model matrices
 - Create the OBJ Loader
 - Create the rotational matrices for the entities file
 - Fix the boid class
