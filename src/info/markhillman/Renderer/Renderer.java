@@ -113,7 +113,7 @@ public class Renderer {
         return matrix;
     }
 
-    //Send unform data
+    //Send uniform data
     protected void sendUniforms(Entity entity, Matrix4f view, Matrix4f projection) {
 
         //Create the model matrix

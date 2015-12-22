@@ -3,6 +3,7 @@
 //Input vertex data, different for all executions of this shader.
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 normal;
+layout(location = 2) in vec2 uvs;
 
 //Uniform variables
 uniform mat4 projection;
@@ -15,6 +16,7 @@ uniform float dampening;
 out vec3 surfaceNormal;
 out vec3 toLightVector;
 out vec3 toCameraVector;
+out vec2 uv;
 out float dampening_fragment;
 out float reflectivity_fragment;
 
@@ -39,4 +41,6 @@ void main() {
     //Send the reflectivity and dampening
     reflectivity_fragment = reflectivity;
     dampening_fragment = dampening;
+
+    uv = uvs;
 }

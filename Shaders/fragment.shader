@@ -3,11 +3,14 @@
 in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
+in vec2 uv;
 in float dampening_fragment;
 in float reflectivity_fragment;
 
 vec3 lightColor = vec3(1, 1, 1);
 vec3 fragmentColor = vec3(1, 0, 0);
+
+uniform sampler2D textureSampler;
 
 out vec4 color;
 void main()
@@ -32,6 +35,16 @@ void main()
     vec3 specular = reflectivity_fragment * dampedFactor * lightColor;
 
 	//Set the pixel output colour
-	color.rgb = (fragmentColor * diffuse) + specular;
-	color.a = 1;
+	//color.rgb = (fragmentColor * diffuse) + specular;
+	//color.a = 1;
+
+	//Sample the texture
+    vec4 diffuseColor = texture(textureSampler, uv);
+
+    //Discard highly transparent fragments
+    if(diffuseColor.a < 0.3) {
+        discard;
+    }
+
+    color = (diffuseColor * vec4(diffuse, 1)) + vec4(specular, 1);
 }

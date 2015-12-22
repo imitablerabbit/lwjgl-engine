@@ -23,6 +23,14 @@ public class Entity {
     public Entity() {
         this(new Model(), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
     }
+    public Entity(Entity e) {
+        this.position = e.getPosition();
+        this.scale = e.getScale();
+        this.angle = e.getRotationAngles();
+        this.velocity = e.getVelocity();
+        this.acceleration = e.getAcceleration();
+        this.model = e.getModel();
+    }
     public Entity(Model model) {
         this(model, new Vector3f());
     }

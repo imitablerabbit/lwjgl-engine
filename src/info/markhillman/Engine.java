@@ -1,10 +1,8 @@
 package info.markhillman;
 
-import info.markhillman.Models.Boid;
-import info.markhillman.Models.Entity;
-import info.markhillman.Models.Model;
-import info.markhillman.Models.ModelLoader;
+import info.markhillman.Models.*;
 import info.markhillman.Renderer.InstancedRenderer;
+import info.markhillman.Renderer.TexturedRenderer;
 import info.markhillman.Scene.Camera;
 import info.markhillman.Utils.EulerAngle;
 import info.markhillman.Utils.ShaderLoader;
@@ -168,7 +166,9 @@ public class Engine {
         //Create the entities
         List<Entity> entities = new ArrayList<>(0);
         Entity cube = new Entity(modelLoader.loadOBJModel("models/cube.obj"), new Vector3f(0, 0, -5));
-        entities.add(cube);
+        //entities.add(cube);
+        TexturedEntity e = new TexturedEntity(cube, new TexturedModel(cube.getModel(), "textures/cube.bmp"));
+        TexturedRenderer tr = new TexturedRenderer(programID);
 
         /*
         Boid boid = new Boid();
@@ -184,7 +184,7 @@ public class Engine {
         }
         */
 
-        Map<Model, List<Entity>> map = renderer.assembleMap(entities);
+        //Map<Model, List<Entity>> map = renderer.assembleMap(entities);
 
         //Run the game and rendering loop.
         while (window.shouldClose() == GLFW_FALSE) {
@@ -197,7 +197,8 @@ public class Engine {
             cube.getRotationAngles().setPitch(cube.getRotationAngles().getPitch() + (float)Math.PI / 100);
             cube.getRotationAngles().setYaw(cube.getRotationAngles().getYaw() + (float)Math.PI / 100);
 
-            renderer.renderEntityMap(map, camera.getView(), camera.getProjection());
+            //renderer.renderEntityMap(map, camera.getView(), camera.getProjection());
+            tr.renderEntity(e, camera.getView(), camera.getProjection());
 
             //Poll for events and make use of key callback
             window.swapBuffers();
