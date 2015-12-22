@@ -1,5 +1,6 @@
 package info.markhillman.Models;
 
+import info.markhillman.Utils.EulerAngle;
 import org.joml.Vector3f;
 import org.joml.Matrix4f;
 
@@ -14,7 +15,7 @@ public class Entity {
 
     private Vector3f position;
     private Vector3f scale;
-    private Vector3f rotation;
+    private EulerAngle angle;
 	private Vector3f velocity;
     private Vector3f acceleration;
     private Model model;
@@ -34,22 +35,22 @@ public class Entity {
     public Entity(Vector3f position, Vector3f scale) {
         this(new Model(), position, scale);
     }
-    public Entity(Vector3f position, Vector3f scale, Vector3f rotation) {
-        this(new Model(), position, scale, rotation);
+    public Entity(Vector3f position, Vector3f scale, EulerAngle angle) {
+        this(new Model(), position, scale, angle);
     }
     public Entity(Model model, Vector3f position, Vector3f scale) {
-        this(model, position, scale, new Vector3f(0, 0, 0));
+        this(model, position, scale, new EulerAngle(0, 0, 0));
     }
-    public Entity(Model model, Vector3f position, Vector3f scale, Vector3f rotation) {
+    public Entity(Model model, Vector3f position, Vector3f scale, EulerAngle angle) {
         this.model = model;
         this.position = position;
         this.scale = scale;
-        this.rotation = rotation;
+        this.angle = angle;
     }
 
     //Clone the entity making sure that the model is the same object
     public Entity clone() {
-        return new Entity(model, position, scale, rotation);
+        return new Entity(model, position, scale, angle);
     }
 
     //Move the entity
@@ -59,7 +60,7 @@ public class Entity {
 	
 	//Run the entity
     public void run() {
-		System.out.println("Entitiy has been run");
+		System.out.println("Entity has been run");
     }
 	
 	//Print the entity as a string
@@ -69,7 +70,7 @@ public class Entity {
 	
     //Getters and Setters
     public Matrix4f getRotationMatrix(){
-		return new Matrix4f().rotateXYZ(rotation.x, rotation.y, rotation.z);
+		return new Matrix4f().rotateX(angle.getPitch()).rotateY(angle.getYaw());
 	}	
     public Matrix4f getScaleMatrix(){
 		return new Matrix4f().scale(getScale());
@@ -77,11 +78,11 @@ public class Entity {
     public Matrix4f getTranslationMatrix(){
 		return new Matrix4f().translate(getPosition());
 	}
-	public Vector3f getRotationVector() {
-        return rotation;
+	public EulerAngle getRotationAngles() {
+        return angle;
     }
-    public void setRotationVector(Vector3f rotation) {
-        this.rotation = rotation;
+    public void setRotationAngles(EulerAngle rotation) {
+        this.angle = rotation;
     }
     public Vector3f getScale() {
         return scale;

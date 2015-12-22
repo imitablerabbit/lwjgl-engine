@@ -153,6 +153,8 @@ public class Engine {
         GL.createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
 
         //Create the shader program
         ShaderLoader shaderLoader = new ShaderLoader("Shaders/vertex.shader", "Shaders/fragment.shader");
@@ -161,19 +163,27 @@ public class Engine {
 
         //Create the renderer and the entity to render
         InstancedRenderer renderer = new InstancedRenderer(programID);
-        List<Entity> entities = new ArrayList<>(0);
-        Boid boid = new Boid();
+        ModelLoader modelLoader = new ModelLoader();
 
+        //Create the entities
+        List<Entity> entities = new ArrayList<>(0);
+        Entity cube = new Entity(modelLoader.loadOBJModel("models/cube.obj"), new Vector3f(0, 0, -5));
+        entities.add(cube);
+
+        /*
+        Boid boid = new Boid();
         for (int i = 0; i < 1000; i++) {
             Boid b = boid.clone();
             b.setPosition(new Vector3f(
-                    (float)(Math.random() * 80) - 40,
-                    (float)(Math.random() * 80) - 40,
-                    (float)(Math.random() * 80) - 40)
-            );
-            b.setScale(new Vector3f(1f, 0.5f, 0.5f));
+                    (float)(Math.random() * 80 - 40),
+                    (float)(Math.random() * 80 - 40),
+                    (float)(Math.random() * 80 - 40)
+            ));
+            b.setScale(new Vector3f(0.5f,0.5f,1f));
             entities.add(b);
         }
+        */
+
         Map<Model, List<Entity>> map = renderer.assembleMap(entities);
 
         //Run the game and rendering loop.
@@ -183,9 +193,10 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //Render the map of entities
-            entities.forEach(entity -> entity.run());
+            //entities.forEach(entity -> entity.run());
+            cube.getRotationAngles().setPitch(cube.getRotationAngles().getPitch() + (float)Math.PI / 100);
+            cube.getRotationAngles().setYaw(cube.getRotationAngles().getYaw() + (float)Math.PI / 100);
 
-            //System.out.println(boid.boids);
             renderer.renderEntityMap(map, camera.getView(), camera.getProjection());
 
             //Poll for events and make use of key callback

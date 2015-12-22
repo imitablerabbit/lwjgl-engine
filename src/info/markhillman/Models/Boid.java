@@ -145,11 +145,9 @@ public class Boid extends Entity {
     public Matrix4f calculateRotationMatrix() {
 
         Matrix4f matrix4f = new Matrix4f();
-        Quaternionf quaternionf = new Quaternionf();
-
-        quaternionf.lookRotate(getVelocity(), new Vector3f(0, 1, 0));
-        quaternionf.get(matrix4f);
-
+        Vector3f v = new Vector3f(getVelocity());
+        v.normalize();
+        matrix4f.rotateXYZ(v.x, v.y, 0);
         return matrix4f;
     }
 }
