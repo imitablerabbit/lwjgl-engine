@@ -1,4 +1,4 @@
-package info.markhillman.Renderer;
+package info.markhillman.Renderers;
 
 import info.markhillman.Models.Entity;
 import info.markhillman.Models.Material;
@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 /**
- * Class: Renderer
+ * Class: Renderers
  * Description: This class will render any model and entity as
  * well as send all of the information to the shader such
  * as the vertices or the uniform variables.
@@ -91,12 +91,14 @@ public class Renderer {
 
     //This will create and load a float into a uniform variable
     protected void sendFloat(float f, String uniformName) {
-
-        //Create the uniformLocation
         int uniformLocation = glGetUniformLocation(programID, uniformName);
-
-        //Send the uniform data
         glUniform1f(uniformLocation, f);
+    }
+
+    //This will create and send a boolean into a uniform variable
+    protected void sendBoolean(boolean b, String uniformName) {
+        int uniformLocation = glGetUniformLocation(programID, uniformName);
+        glUniform1f(uniformLocation, (b == true) ? 1 : 0);
     }
 
     //This will create and return a model matrix for the MVP matrix
@@ -128,6 +130,9 @@ public class Renderer {
         Material material = entity.getModel().getMaterial();
         sendFloat(material.getDampening(), "dampening");
         sendFloat(material.getReflectivity(), "reflectivity");
+
+        //Send booleans for shaders
+        sendBoolean(false, "isTextured");
     }
 
     //This will render a model based on its position and the MVP matrix

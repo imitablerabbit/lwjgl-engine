@@ -1,20 +1,16 @@
 package info.markhillman;
 
+import info.markhillman.Loaders.ModelLoader;
 import info.markhillman.Models.*;
-import info.markhillman.Renderer.InstancedRenderer;
-import info.markhillman.Renderer.TexturedRenderer;
+import info.markhillman.Renderers.TexturedRenderer;
 import info.markhillman.Scene.Camera;
 import info.markhillman.Utils.EulerAngle;
-import info.markhillman.Utils.ShaderLoader;
+import info.markhillman.Loaders.ShaderLoader;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -159,32 +155,11 @@ public class Engine {
         int programID = shaderLoader.getProgramID();
         glUseProgram(programID);
 
-        //Create the renderer and the entity to render
-        InstancedRenderer renderer = new InstancedRenderer(programID);
+        //Create the Model and renderer
         ModelLoader modelLoader = new ModelLoader();
-
-        //Create the entities
-        List<Entity> entities = new ArrayList<>(0);
         Entity cube = new Entity(modelLoader.loadOBJModel("models/cube.obj"), new Vector3f(0, 0, -5));
-        //entities.add(cube);
-        TexturedEntity e = new TexturedEntity(cube, new TexturedModel(cube.getModel(), "textures/cube.bmp"));
-        TexturedRenderer tr = new TexturedRenderer(programID);
-
-        /*
-        Boid boid = new Boid();
-        for (int i = 0; i < 1000; i++) {
-            Boid b = boid.clone();
-            b.setPosition(new Vector3f(
-                    (float)(Math.random() * 80 - 40),
-                    (float)(Math.random() * 80 - 40),
-                    (float)(Math.random() * 80 - 40)
-            ));
-            b.setScale(new Vector3f(0.5f,0.5f,1f));
-            entities.add(b);
-        }
-        */
-
-        //Map<Model, List<Entity>> map = renderer.assembleMap(entities);
+        TexturedEntity cubeTextured = new TexturedEntity(cube, new TexturedModel(cube.getModel(), "textures/cube.bmp"));
+        TexturedRenderer texturedRenderer = new TexturedRenderer(programID);
 
         //Run the game and rendering loop.
         while (window.shouldClose() == GLFW_FALSE) {
@@ -192,13 +167,10 @@ public class Engine {
             //Clear and swap the frame buffers
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            //Render the map of entities
-            //entities.forEach(entity -> entity.run());
-            cube.getRotationAngles().setPitch(cube.getRotationAngles().getPitch() + (float)Math.PI / 100);
+            //Rotate and render
             cube.getRotationAngles().setYaw(cube.getRotationAngles().getYaw() + (float)Math.PI / 100);
-
-            //renderer.renderEntityMap(map, camera.getView(), camera.getProjection());
-            tr.renderEntity(e, camera.getView(), camera.getProjection());
+            cube.getRotationAngles().setPitch(cube.getRotationAngles().getPitch() + (float)Math.PI / 100);
+            texturedRenderer.renderEntity(cubeTextured, camera.getView(), camera.getProjection());
 
             //Poll for events and make use of key callback
             window.swapBuffers();

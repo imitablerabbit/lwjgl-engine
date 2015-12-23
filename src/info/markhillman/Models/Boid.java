@@ -1,9 +1,6 @@
 package info.markhillman.Models;
 
-import info.markhillman.Utils.EulerAngle;
-import org.joml.AxisAngle4f;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
+import info.markhillman.Loaders.ModelLoader;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -20,8 +17,20 @@ public class Boid extends Entity {
     //Create an array of all the boids created
     public static List<Boid> boids = new ArrayList<>(0);    
     private float maxSpeed = 0.1f;
-    private Matrix4f rotation;
 
+    public Boid() {
+        this(new Vector3f(0, 0, 0));
+    }
+    public Boid(Boid b) {
+        this.maxSpeed = b.maxSpeed;
+        setModel(b.getModel());
+        setPosition(b.getPosition());
+        setVelocity(b.getVelocity());
+        setAcceleration(b.getAcceleration());
+        setScale(b.getScale());
+        setRotationAngles(b.getRotationAngles());
+        boids.add(this);
+    }
     public Boid(Vector3f position) {
         super(position);
         setVelocity(new Vector3f(
@@ -31,18 +40,15 @@ public class Boid extends Entity {
         ));
         setAcceleration(new Vector3f(0));
 
-        //Get any previous boids models for flyweight
+        //Get any previous boids models for flyweight so as to not re-read the obj
         if (boids.size() > 0)
             setModel(boids.get(0).getModel());
         else {
             ModelLoader loader = new ModelLoader();
-            setModel(loader.loadOBJModel("models/cube.obj"));
+            setModel(loader.loadOBJModel("models/sphere.obj"));
         }
 
         boids.add(this);
-    }
-    public Boid() {
-        this(new Vector3f(0, 0, 0));
     }
 
     //This will allow the boids to flock and update their positions
@@ -128,26 +134,5 @@ public class Boid extends Entity {
             vector.z = limit.z;
         else if (vector.z < -limit.z)
             vector.z = -limit.z;
-    }
-
-    //Make sure that the model is always the same for a clone
-    public Boid clone() {
-        Boid boid = new Boid(getPosition());
-        return boid;
-    }
-
-    @Override
-    public Matrix4f getRotationMatrix() {
-
-        return calculateRotationMatrix();
-    }
-
-    public Matrix4f calculateRotationMatrix() {
-
-        Matrix4f matrix4f = new Matrix4f();
-        Vector3f v = new Vector3f(getVelocity());
-        v.normalize();
-        matrix4f.rotateXYZ(v.x, v.y, 0);
-        return matrix4f;
     }
 }

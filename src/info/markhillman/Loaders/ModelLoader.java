@@ -1,5 +1,6 @@
-package info.markhillman.Models;
+package info.markhillman.Loaders;
 
+import info.markhillman.Models.Model;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 

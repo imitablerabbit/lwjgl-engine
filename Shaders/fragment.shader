@@ -11,8 +11,10 @@ vec3 lightColor = vec3(1, 1, 1);
 vec3 fragmentColor = vec3(1, 0, 0);
 
 uniform sampler2D textureSampler;
+uniform bool isTextured;
 
 out vec4 color;
+
 void main()
 {
     vec3 unitNormal = normalize(surfaceNormal);
@@ -34,17 +36,21 @@ void main()
     float dampedFactor = pow(specularFactor, dampening_fragment);
     vec3 specular = reflectivity_fragment * dampedFactor * lightColor;
 
-	//Set the pixel output colour
-	//color.rgb = (fragmentColor * diffuse) + specular;
-	//color.a = 1;
+	//Determine whether the model is textured or not
+    if (isTextured) {
+        //Sample the texture
+        vec4 diffuseColor = texture(textureSampler, uv);
 
-	//Sample the texture
-    vec4 diffuseColor = texture(textureSampler, uv);
+        //Discard highly transparent fragments
+        if(diffuseColor.a < 0.3) {
+            discard;
+        }
 
-    //Discard highly transparent fragments
-    if(diffuseColor.a < 0.3) {
-        discard;
+        color = (diffuseColor * vec4(diffuse, 1)) + vec4(specular, 1);
     }
-
-    color = (diffuseColor * vec4(diffuse, 1)) + vec4(specular, 1);
+    else {
+        //Set the pixel output colour
+    	color.rgb = (fragmentColor * diffuse) + specular;
+    	color.a = 1;
+    }
 }

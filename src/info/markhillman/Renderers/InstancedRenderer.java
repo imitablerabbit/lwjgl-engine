@@ -1,7 +1,6 @@
-package info.markhillman.Renderer;
+package info.markhillman.Renderers;
 
 import info.markhillman.Models.Entity;
-import info.markhillman.Models.Material;
 import info.markhillman.Models.Model;
 import org.joml.Matrix4f;
 
