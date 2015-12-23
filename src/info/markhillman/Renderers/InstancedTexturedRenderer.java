@@ -2,6 +2,8 @@ package info.markhillman.Renderers;
 
 import info.markhillman.Models.Entity;
 import info.markhillman.Models.Model;
+import info.markhillman.Models.TexturedEntity;
+import info.markhillman.Models.TexturedModel;
 import org.joml.Matrix4f;
 
 import java.util.ArrayList;
@@ -26,10 +28,10 @@ public class InstancedTexturedRenderer extends TexturedRenderer {
     }
 
     //This will assemble the map of entities
-    public Map<Model, List<Entity>> assembleMap(List<Entity> entities) {
+    public Map<TexturedModel, List<TexturedEntity>> assembleMap(List<TexturedEntity> entities) {
 
-        Map<Model, List<Entity>> map = new HashMap<>();
-        for (Entity entity: entities) {
+        Map<TexturedModel, List<TexturedEntity>> map = new HashMap<>();
+        for (TexturedEntity entity : entities) {
 
             //Add the entity to the list if that model already exists
             if (map.containsKey(entity.getModel())) {
@@ -38,7 +40,7 @@ public class InstancedTexturedRenderer extends TexturedRenderer {
             else {
 
                 //Create a new list for the map
-                ArrayList<Entity> list = new ArrayList<>(0);
+                ArrayList<TexturedEntity> list = new ArrayList<>(0);
                 list.add(entity);
                 map.put(entity.getModel(), list);
             }
@@ -46,23 +48,23 @@ public class InstancedTexturedRenderer extends TexturedRenderer {
         //System.out.println(map);
         return map;
     }
-    public Map<Model, List<Entity>> assembleMap(Entity[] entities) {
+    public Map<TexturedModel, List<TexturedEntity>> assembleMap(TexturedEntity[] entities) {
 
         //Create a list from the array
-        List<Entity> list = new ArrayList<>(entities.length);
-        for (Entity entity : entities) {
+        List<TexturedEntity> list = new ArrayList<>(entities.length);
+        for (TexturedEntity entity : entities) {
             list.add(entity);
         }
         return assembleMap(list);
     }
 
     //This will render the entities onto the screen
-    public void renderEntityMap(Map<Model, List<Entity>> map, Matrix4f view, Matrix4f projection) {
+    public void renderEntityMap(Map<TexturedModel, List<TexturedEntity>> map, Matrix4f view, Matrix4f projection) {
 
         //Get each of the different models
-        for (Map.Entry<Model, List<Entity>> entry : map.entrySet()) {
+        for (Map.Entry<TexturedModel, List<TexturedEntity>> entry : map.entrySet()) {
             bindModel(entry.getKey());
-            for (Entity entity : entry.getValue()) {
+            for (TexturedEntity entity : entry.getValue()) {
 
                 //Send the uniform data
                 sendUniforms(entity, view, projection);

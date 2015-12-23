@@ -68,7 +68,10 @@ public class Entity {
 	
 	//Run the entity
     public void run() {
-		System.out.println("Entity has been run");
+
+        //Rotate the model
+        getRotationAngles().setYaw(getRotationAngles().getYaw() + (float)Math.PI / 100);
+        getRotationAngles().setPitch(getRotationAngles().getPitch() + (float)Math.PI / 100);
     }
 	
 	//Print the entity as a string

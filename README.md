@@ -35,11 +35,13 @@ When this command is run a window will open up and display an exhibition of what
 ![Boid simulation screenshot](/res/screenshots/boids.png?raw=true "Boid Simulation")
 
 ##To Do:##
-- Add a Scene class to contain the camera
 - Add support for VBO indexing
-- Organise some of the code
+- Create a folder for ways in which you can use the engine (demos)
 
 ##Change Log:##
+- Added a Scene class
+  - Moved the entities and callbacks here
+  - Added a run and render method
 - Organise the Texturing code
 - Added support for texturing
   - Create a TexturedModel class

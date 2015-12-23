@@ -33,8 +33,8 @@ public class EulerAngle {
         Vector3f result = new Vector3f();
 
         //Convert the values to radians
-        float yawTemp = (yaw * (float)Math.PI) / 180;
-        float pitchTemp = (pitch * (float)Math.PI) / 180;
+        float yawTemp = (float)Math.toRadians(yaw);
+        float pitchTemp = (float)Math.toRadians(pitch);
 
         //This will do the calculation to a vector
         result.x = (float)(Math.sin(yawTemp) * Math.cos(pitchTemp));

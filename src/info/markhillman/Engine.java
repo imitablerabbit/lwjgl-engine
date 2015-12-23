@@ -1,20 +1,15 @@
 package info.markhillman;
 
-import info.markhillman.Loaders.ModelLoader;
-import info.markhillman.Models.*;
-import info.markhillman.Renderers.TexturedRenderer;
 import info.markhillman.Scene.Camera;
+import info.markhillman.Scene.Scene;
 import info.markhillman.Utils.EulerAngle;
-import info.markhillman.Loaders.ShaderLoader;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.glUseProgram;
 
 /**
  * Class: Engine
@@ -28,38 +23,34 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 // TODO: 06/12/2015 Move the cursor and keycallbacks
 // TODO: 08/12/2015 Change the keycallback to modify booleans and then move the camera every frame based off those
 // TODO: 07/12/2015 Create an input handler
-// TODO: 07/12/2015 Create a scene class to hold the camera
 public class Engine {
 
     private GLFWErrorCallback errorCallback;
-    private GLFWKeyCallback keyCallback;
-    private GLFWCursorPosCallback cursorPosCallback;
     private Window window;
-
-    private double xPrev, yPrev;
-
+    private Scene scene;
     private final int width = 600;
     private final int height = 600;
 
-    private Camera camera;
-
     public Engine() {
-
         try {
-            // Start the engine and the game loop
             init();
-            loop();
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+            System.out.println("Could not initialise the engine");
+        }
+    }
 
-            //Destroy the window and the callbacks
-            window.destroy();
-            keyCallback.release();
-            cursorPosCallback.release();
-        }
-        finally {
-            //Terminate GLFW and release the GLFWErrorCallback
-            glfwTerminate();
-            errorCallback.release();
-        }
+    public void run() {
+        // Start the engine and the game loop
+        loop();
+
+        //Destroy the window and the callbacks
+        window.destroy();
+        scene.getKeyCallback().release();
+        scene.getCursorPosCallback().release();
+        glfwTerminate();
+        errorCallback.release();
     }
 
     //Initialize the whole engine and open the window
@@ -79,87 +70,22 @@ public class Engine {
         glfwSetInputMode(window.getId(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetCursorPos(window.getId(), 0, 0);
 
-        //Create the camera
-        camera = new Camera(new Vector3f(0, 0, 0), 0, 180);
-
-        //Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window.getId(), keyCallback = new GLFWKeyCallback() {
-
-            float speed = 0.05f;
-
-            @Override
-            public void invoke(long window, int key, int scancode, int action, int mods) {
-                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                    glfwSetWindowShouldClose(window, GLFW_TRUE);
-                else if (key == GLFW_KEY_W){
-
-                    //Move the camera forward
-                    camera.setPosition(camera.getPosition().sub(camera.getDirection().mul(speed)));
-                    camera.update();
-                } else if (key == GLFW_KEY_S) {
-
-                    //Move the camera back
-                    camera.setPosition(camera.getPosition().add(camera.getDirection().mul(speed)));
-                    camera.update();
-                } else if (key == GLFW_KEY_A) {
-
-                    //Move the camera left
-                    camera.setPosition(camera.getPosition().add(camera.getDirection().cross(new Vector3f(0, 1, 0)).mul(speed)));
-                    camera.update();
-                } else if (key == GLFW_KEY_D) {
-
-                    //Move the camera left
-                    camera.setPosition(camera.getPosition().sub(camera.getDirection().cross(new Vector3f(0, 1, 0)).mul(speed)));
-                    camera.update();
-                }
-            }
-        });
-
-        //Setup the cursor position callback
-        glfwSetCursorPosCallback(window.getId(), cursorPosCallback = new GLFWCursorPosCallback() {
-
-            //Create the variables
-            EulerAngle angles = new EulerAngle(0, 180);
-            float sensitivity = 20;
-
-            @Override
-            public void invoke(long window, double x, double y) {
-
-                //Update the camera
-                angles.setYaw(angles.getYaw() + (float) ((x - xPrev) / sensitivity));
-                angles.setPitch(angles.getPitch() + (float) ((y - yPrev) / sensitivity));
-                camera.update(angles);
-
-                xPrev = x;
-                yPrev = y;
-            }
-        });
-
         //Make the OpenGL context current
         window.makeContext();
         window.show();
+
+        //Create the scene
+        scene = new Scene(window.getId());
     }
 
     //This is the game loop which will continuously run until the window is closed
     private void loop() {
 
         //Let LWJGL and openGL work together using GLFW
-        GL.createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
-
-        //Create the shader program
-        ShaderLoader shaderLoader = new ShaderLoader("Shaders/vertex.shader", "Shaders/fragment.shader");
-        int programID = shaderLoader.getProgramID();
-        glUseProgram(programID);
-
-        //Create the Model and renderer
-        ModelLoader modelLoader = new ModelLoader();
-        Entity cube = new Entity(modelLoader.loadOBJModel("models/cube.obj"), new Vector3f(0, 0, -5));
-        TexturedEntity cubeTextured = new TexturedEntity(cube, new TexturedModel(cube.getModel(), "textures/cube.bmp"));
-        TexturedRenderer texturedRenderer = new TexturedRenderer(programID);
 
         //Run the game and rendering loop.
         while (window.shouldClose() == GLFW_FALSE) {
@@ -167,14 +93,27 @@ public class Engine {
             //Clear and swap the frame buffers
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            //Rotate and render
-            cube.getRotationAngles().setYaw(cube.getRotationAngles().getYaw() + (float)Math.PI / 100);
-            cube.getRotationAngles().setPitch(cube.getRotationAngles().getPitch() + (float)Math.PI / 100);
-            texturedRenderer.renderEntity(cubeTextured, camera.getView(), camera.getProjection());
+            //Render and run the scene
+            scene.run();
+            scene.render();
 
             //Poll for events and make use of key callback
             window.swapBuffers();
             glfwPollEvents();
         }
+    }
+
+    //Getters and Setters
+    public Window getWindow() {
+        return window;
+    }
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+    public Scene getScene() {
+        return scene;
+    }
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 }
