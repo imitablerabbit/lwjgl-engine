@@ -11,7 +11,7 @@ First make sure that the latest release of Java is installed. Next, on a windows
 In order to compile the java source files, you can use the javac command from the root of the project files:
 
 ```
-javac -d "out/production/Engine" -cp "libs/lwjgl.jar;out/production/Engine/" src/info/markhillman/Models/\*.java src/info/markhillman/Renderer/\*.java src/info/markhillman/Scene/\*.java src/info/markhillman/Utils/\*.java src/info/markhillman/\*.java
+javac -d "out/production/Engine" -cp "libs/lwjgl.jar;out/production/Engine/" src/info/markhillman/Models/*.java src/info/markhillman/Renderers/*.java src/info/markhillman/Loaders/*.java src/info/markhillman/Scene/*.java src/info/markhillman/Utils/*.java src/info/markhillman/*.java
 ```
 
 This will compile the files into the out/production/Engine file path.
@@ -39,6 +39,7 @@ When this command is run a window will open up and display an exhibition of what
 - Create a folder for ways in which you can use the engine (demos)
 
 ##Change Log:##
+- Updated the compiler string
 - Added a Scene class
   - Moved the entities and callbacks here
   - Added a run and render method
