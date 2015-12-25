@@ -30,7 +30,7 @@ void main()
 
     //Calculate the specular factor
     float specularFactor = dot(reflectedLightDirection, unitCameraVector);
-    specularFactor = max(specularFactor, 0.0);
+    specularFactor = max(specularFactor, 0.2);
 
     //Dampen the specular lighting according to the material
     float dampedFactor = pow(specularFactor, dampening_fragment);

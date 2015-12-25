@@ -1,12 +1,9 @@
 package info.markhillman;
 
-import info.markhillman.Scene.Camera;
 import info.markhillman.Scene.Scene;
-import info.markhillman.Utils.EulerAngle;
-import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
+import info.markhillman.Utils.GameTimer;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -28,12 +25,39 @@ public class Engine {
     private GLFWErrorCallback errorCallback;
     private Window window;
     private Scene scene;
-    private final int width = 600;
-    private final int height = 600;
+    private GameTimer timer;
 
     public Engine() {
+        this(500, 500, "3D Engine");
+    }
+    public Engine(int width, int height) {
+        this(width, height, "3D Engine");
+    }
+    public Engine(int width, int height, String title) {
+
+        //Setup the engine, window and base scene
         try {
-            init();
+
+            //Setup the error callback so that openGL can print errors
+            glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
+
+            //Initialise GLFW
+            if (glfwInit() != GLFW_TRUE)
+                throw new IllegalStateException("Unable to initialize GLFW");
+
+            //Create the window
+            window = new Window(title, width, height);
+            window.makeContext();
+            window.show();
+
+            //Setup the cursor
+            glfwSetInputMode(window.getId(), GLFW_STICKY_KEYS, GL_TRUE);
+            glfwSetInputMode(window.getId(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            glfwSetCursorPos(window.getId(), 0, 0);
+
+            //Create the scene and timer
+            scene = new Scene(window.getId());
+            timer = new GameTimer();
         }
         catch (IllegalStateException e) {
             e.printStackTrace();
@@ -41,8 +65,10 @@ public class Engine {
         }
     }
 
+    //This will start the game Engine
     public void run() {
-        // Start the engine and the game loop
+
+        //Start the game loop to run the scene
         loop();
 
         //Destroy the window and the callbacks
@@ -53,53 +79,39 @@ public class Engine {
         errorCallback.release();
     }
 
-    //Initialize the whole engine and open the window
-    private void init() {
-
-        //Setup the error callback so that openGL can print errors
-        glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
-
-        //Initialise GLFW
-        if (glfwInit() != GLFW_TRUE)
-            throw new IllegalStateException("Unable to initialize GLFW");
-
-        //Create the window
-        window = new Window("3D Engine", width, height);
-
-        //Setup the cursor
-        glfwSetInputMode(window.getId(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetCursorPos(window.getId(), 0, 0);
-
-        //Make the OpenGL context current
-        window.makeContext();
-        window.show();
-
-        //Create the scene
-        scene = new Scene(window.getId());
-    }
-
     //This is the game loop which will continuously run until the window is closed
     private void loop() {
 
         //Let LWJGL and openGL work together using GLFW
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.7f, 0.7f, 0.7f, 0.0f);
+
         glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         //Run the game and rendering loop.
         while (window.shouldClose() == GLFW_FALSE) {
 
-            //Clear and swap the frame buffers
+            timer.start();
+
+            //Clear buffers
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //Render and run the scene
             scene.run();
             scene.render();
 
-            //Poll for events and make use of key callback
+            //Poll for events and swap buffers
             window.swapBuffers();
             glfwPollEvents();
+
+            timer.update();
+            System.out.println("DT: " + timer.getDT() + ", FPS: " + timer.getFPS());
         }
     }
 

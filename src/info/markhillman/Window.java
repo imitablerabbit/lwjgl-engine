@@ -37,6 +37,7 @@ public class Window {
 
         //Configure the window hints
         glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_SAMPLES, 4);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     }
