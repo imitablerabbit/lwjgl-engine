@@ -26,10 +26,10 @@ public class Camera {
     public Camera() {
         this(new Vector3f(0, 0, 0), 0, 0, 0);
     }
-    public Camera (Vector3f position, float pitch, float yaw) {
+    public Camera(Vector3f position, float pitch, float yaw) {
         this(position, pitch, yaw, 0);
     }
-    public Camera (Vector3f position, float pitch, float yaw, float roll) {
+    public Camera(Vector3f position, float pitch, float yaw, float roll) {
         this.position = position;
         angles = new EulerAngle(pitch, yaw, roll);
         this.direction = angles.toVector();
@@ -54,19 +54,18 @@ public class Camera {
         return result;
     }
 
-    //Update everything
+    //Update the camera by calculating nre projection and view
     public void update() {
         projection = calculateProjection();
         view = calculateView();
     }
 
-    //Update by giving it new pitch and yaw
-    public void update(EulerAngle angles) {
-        angles.constrain();
-        this.angles = angles;
-        direction = angles.toVector();
-        projection = calculateProjection();
-        view = calculateView();
+    //This will point the camera in the direction of the given vector
+    public void lookAt(Vector3f direction) {
+
+        //Set the camera EulerAngles to one which looks in that direction
+        angles.toAngles(direction);
+        update();
     }
 
     //Getters and Setters

@@ -82,16 +82,13 @@ public class Engine {
     //This is the game loop which will continuously run until the window is closed
     private void loop() {
 
-        //Let LWJGL and openGL work together using GLFW
+        //Set the clear color and enable openGL operations
         glClearColor(0.7f, 0.7f, 0.7f, 0.0f);
-
         glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
-
         glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-
         glEnable(GL_BLEND);
+        glDepthFunc(GL_LESS);
+        glCullFace(GL_BACK);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         //Run the game and rendering loop.
@@ -111,7 +108,7 @@ public class Engine {
             glfwPollEvents();
 
             timer.update();
-            System.out.println("DT: " + timer.getDT() + ", FPS: " + timer.getFPS());
+            //System.out.println("DT: " + timer.getDT() + ", FPS: " + timer.getFPS());
         }
     }
 

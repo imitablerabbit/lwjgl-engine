@@ -70,8 +70,8 @@ public class Entity {
     public void run() {
 
         //Rotate the model
-        getRotationAngles().setYaw(getRotationAngles().getYaw() + (float)Math.PI / 100);
-        getRotationAngles().setPitch(getRotationAngles().getPitch() + (float)Math.PI / 100);
+        getRotationAngles().setYaw(getRotationAngles().getYaw() + (float)Math.PI / 200);
+        //getRotationAngles().setPitch(getRotationAngles().getPitch() + (float)Math.PI / 100);
     }
 	
 	//Print the entity as a string

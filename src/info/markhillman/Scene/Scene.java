@@ -47,7 +47,6 @@ public class Scene {
 
         //Create the camera to look forward
         camera = new Camera(new Vector3f(0, 0, 0), 0, 180);
-        System.out.println(camera.getDirection());
 
         //Create the lists and renderers
         texturedEntities = new ArrayList<>(0);
@@ -92,17 +91,17 @@ public class Scene {
         glfwSetCursorPosCallback(windowID, cursorPosCallback = new GLFWCursorPosCallback() {
 
             //Create the variables
-            private EulerAngle angles = new EulerAngle(0, 180);
+            private EulerAngle angles;
             private float sensitivity = 20;
-            private double xPrev, yPrev;
+            private double xPrev = 0, yPrev = 0;
 
             @Override
             public void invoke(long window, double x, double y) {
 
-                //Update the camera
+                //Update the camera by moving the EulerAngles
+                angles = camera.getAngles();
                 angles.setYaw(angles.getYaw() + (float) ((x - xPrev) / sensitivity));
                 angles.setPitch(angles.getPitch() + (float) ((y - yPrev) / sensitivity));
-                camera.update(angles);
 
                 xPrev = x;
                 yPrev = y;
@@ -124,7 +123,7 @@ public class Scene {
         }
     }
 
-    //This will run all of the entities
+    //This will run all of the entities and camera
     public void run() {
         if (!texturedEntities.isEmpty()) {
             for (TexturedEntity e : texturedEntities) {
@@ -136,6 +135,9 @@ public class Scene {
                 e.run();
             }
         }
+
+        //Update the camera
+        camera.update();
     }
 
     //Render all of the entities in the lists
