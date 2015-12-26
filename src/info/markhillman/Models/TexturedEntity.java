@@ -1,7 +1,5 @@
 package info.markhillman.Models;
 
-import javax.xml.soap.Text;
-
 /**
  * Class: TexturedEntity
  * Description: This class will create a texturedEntity

@@ -4,6 +4,8 @@ import info.markhillman.Utils.EulerAngle;
 import org.joml.Vector3f;
 import org.joml.Matrix4f;
 
+import javax.xml.soap.Text;
+
 /**
  * Class: Model
  * Description: This is the basic model class, it will
@@ -23,28 +25,20 @@ public class Entity {
     public Entity() {
         this(new Model(), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
     }
-    public Entity(Entity e) {
-        this.position = e.getPosition();
-        this.scale = e.getScale();
-        this.angle = e.getRotationAngles();
-        this.velocity = e.getVelocity();
-        this.acceleration = e.getAcceleration();
-        this.model = e.getModel();
-    }
-    public Entity(Model model) {
-        this(model, new Vector3f());
-    }
     public Entity(Vector3f position) {
         this(new Model(), position, new Vector3f(1, 1, 1));
-    }
-    public Entity(Model model, Vector3f position) {
-        this(model, position, new Vector3f(1, 1, 1));
     }
     public Entity(Vector3f position, Vector3f scale) {
         this(new Model(), position, scale);
     }
     public Entity(Vector3f position, Vector3f scale, EulerAngle angle) {
         this(new Model(), position, scale, angle);
+    }
+    public Entity(Model model) {
+        this(model, new Vector3f());
+    }
+    public Entity(Model model, Vector3f position) {
+        this(model, position, new Vector3f(1, 1, 1));
     }
     public Entity(Model model, Vector3f position, Vector3f scale) {
         this(model, position, scale, new EulerAngle(0, 0, 0));
@@ -54,6 +48,14 @@ public class Entity {
         this.position = position;
         this.scale = scale;
         this.angle = angle;
+    }
+    public Entity(Entity e) {
+        this.position = e.getPosition();
+        this.scale = e.getScale();
+        this.angle = e.getRotationAngles();
+        this.velocity = e.getVelocity();
+        this.acceleration = e.getAcceleration();
+        this.model = e.getModel();
     }
 
     //Clone the entity making sure that the model is the same object
@@ -72,6 +74,13 @@ public class Entity {
         //Rotate the model
         getRotationAngles().setYaw(getRotationAngles().getYaw() + (float)Math.PI / 200);
         //getRotationAngles().setPitch(getRotationAngles().getPitch() + (float)Math.PI / 100);
+    }
+
+    //Create a texturedEntity from this entity
+    public TexturedEntity bindTexture(String texturePath) {
+
+        TexturedEntity te = new TexturedEntity(this, texturePath);
+        return te;
     }
 	
 	//Print the entity as a string

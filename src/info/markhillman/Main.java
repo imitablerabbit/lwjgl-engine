@@ -1,5 +1,6 @@
 package info.markhillman;
 
+import info.markhillman.Loaders.EntityLoader;
 import info.markhillman.Loaders.ModelLoader;
 import info.markhillman.Models.Boid;
 import info.markhillman.Models.Entity;
@@ -18,15 +19,18 @@ public class Main {
         Camera camera = scene.getCamera();
 
         //Create the cube and add to the scene
-        ModelLoader modelLoader = new ModelLoader();
-        Entity milleniumFalcon = new Entity(modelLoader.loadOBJModel("models/millenium_falcon.obj"), new Vector3f(0, -2, -3));
-        milleniumFalcon.setScale(new Vector3f(0.005f));
+        EntityLoader loader = new EntityLoader();
+        TexturedEntity milleniumFalcon = loader.loadTexturedEntity(
+                "models/millenium_falcon.obj",
+                "textures/millenium_falcon.bmp",
+                new Vector3f(0, -2, -3),
+                new Vector3f(0.005f)
+        );
         milleniumFalcon.getModel().getMaterial().setReflectivity(0.2f);
-        TexturedEntity milleniumFalconTextured = new TexturedEntity(milleniumFalcon, "textures/millenium_falcon.bmp");
-        scene.addEntity(milleniumFalconTextured);
+        scene.addEntity(milleniumFalcon);
 
         //Make the camera look at the falcon
-        camera.lookAt(new Vector3f(0,-2,-3));
+        camera.lookAt(milleniumFalcon.getPosition());
 
         //Create the boids and add to scene
         /*

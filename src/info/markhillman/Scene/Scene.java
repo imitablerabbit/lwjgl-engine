@@ -123,7 +123,7 @@ public class Scene {
         }
     }
 
-    //This will run all of the entities and camera
+    //This will run all of the entities
     public void run() {
         if (!texturedEntities.isEmpty()) {
             for (TexturedEntity e : texturedEntities) {
@@ -135,13 +135,13 @@ public class Scene {
                 e.run();
             }
         }
-
-        //Update the camera
-        camera.update();
     }
 
     //Render all of the entities in the lists
     public void render() {
+
+        //Update the camera and render
+        camera.update();
         if (!texturedEntities.isEmpty()) {
             Map<TexturedModel, List<TexturedEntity>> texturedMap = itr.assembleMap(texturedEntities);
             itr.renderEntityMap(texturedMap, camera.getView(), camera.getProjection());

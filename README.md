@@ -37,9 +37,11 @@ When this command is run a window will open up and display an exhibition of what
 ##To Do:##
 - Add support for VBO indexing
 - Create a folder for ways in which you can use the engine (demos)
-- Create a Modelloader to load textures models in 1 line rather than separating the process
 
 ##Change Log:##
+- Create a Modelloader to load textures models in 1 line rather than separating the process
+- Added An EntityLoader to abstract some of the Entity creation
+  - Add the position and scale into the entity loaders
 - Fixed some things wrong with the camera:
   - Update the cursor callback to update the camera and angles from the start
   - Added a function for the camera to look in a specific direction
