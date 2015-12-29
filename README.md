@@ -47,6 +47,7 @@ This is an example of an extremely basic boid simulation, where spheres will mov
 
 ##To Do:##
 - Add support for VBO indexing
+- Move the models, textures and demos to the resources folder
 
 ##Change Log:##
 - Added an interface for default run method for every entity type, to create a new method for the entity call the setAction(Action a) method with a new lambda function as a parameter.
