@@ -31,14 +31,33 @@ When this command is run a window will open up and display an exhibition of what
 ###Cube Rotation###
 ![Cube Rotation Simulation](/res/screenshots/cube.png?raw=true "Cube Rendering")
 
+This screenshot is taken during the cube-rotation demo. In this demo a textured cube is displayed and rotated according to the engine's timer. This ensures that the cube rotates 1 unit per second no matter how many frames there are displayed per second.
+
+###Displaying an OBJ file###
+![Millenium Falcon](/res/screenshots/falcon.png?raw=true "Millenium Falcon")
+
+This screenshot just demonstrates how a model can be loaded into the engine. On the Millenium Falcon you can see the effects of the Material which has been given to it, the model has a specular value which gives it a metallic look.
+
 ###Boid Simulation###
 ![Boid simulation screenshot](/res/screenshots/boids.png?raw=true "Boid Simulation")
+
+This is an example of an extremely basic boid simulation, where spheres will move in 3D space according to 3 simple rules. Alignment, Cohesion and Separation are what steers each of the boids' acceleration, which in turn will move the boids with an interesting flocking behaviour.
 
 ##To Do:##
 - Add support for VBO indexing
 - Create a folder for ways in which you can use the engine (demos)
+  - Create a millenium falcon that will fly around the screen
 
 ##Change Log:##
+- Added an interface for default run method for every entity type, to create a new method for the entity call the setAction(Action a) method with a new lambda function as a parameter
+- Camera:
+  - Allow the camera to look at a specific point in world space
+  - Allow the camera to look in a specific direction
+- EulerAngles degrees fixed
+- Demos:
+  - Create a basic Millenium falcon demo
+  - Create a basic boid simulation
+  - Create a cube rotation demonstration
 - Create a Modelloader to load textures models in 1 line rather than separating the process
 - Added An EntityLoader to abstract some of the Entity creation
   - Add the position and scale into the entity loaders

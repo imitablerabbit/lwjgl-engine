@@ -110,8 +110,10 @@ public class Renderer {
         Matrix4f translation = entity.getTranslationMatrix();
         Matrix4f rotation = entity.getRotationMatrix();
 
-        //Assemble the model matrix
-        matrix.mul(translation).mul(rotation).mul(scale);
+        //Assemble the model matrix order = SRT
+        matrix.mul(translation);
+        matrix.mul(rotation);
+        matrix.mul(scale);
         return matrix;
     }
 

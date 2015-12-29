@@ -61,11 +61,19 @@ public class Camera {
     }
 
     //This will point the camera in the direction of the given vector
-    public void lookAt(Vector3f direction) {
+    public void lookTo(Vector3f direction) {
 
         //Set the camera EulerAngles to one which looks in that direction
         angles.toAngles(direction);
         update();
+    }
+
+    //This will look at a specific point in world space
+    public void lookAt(Vector3f point) {
+
+        //Get the direction by minusing the point to look at and the camera position
+        Vector3f direction = point.sub(position, new Vector3f());
+        lookTo(direction);
     }
 
     //Getters and Setters

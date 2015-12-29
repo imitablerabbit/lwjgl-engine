@@ -1,6 +1,8 @@
 package info.markhillman.Models;
 
+import info.markhillman.Engine;
 import info.markhillman.Utils.EulerAngle;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Matrix4f;
 
@@ -13,14 +15,15 @@ import javax.xml.soap.Text;
  * the MVP matrix.
  * Created by Mark on 06/12/2015.
  */
-public class Entity {
+public class Entity implements Action{
 
-    private Vector3f position;
-    private Vector3f scale;
-    private EulerAngle angle;
-	private Vector3f velocity;
-    private Vector3f acceleration;
-    private Model model;
+    protected Vector3f position;
+    protected Vector3f scale;
+    protected EulerAngle angle;
+    protected Vector3f velocity;
+    protected Vector3f acceleration;
+    protected Model model;
+    protected Action action;
 
     public Entity() {
         this(new Model(), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
@@ -48,6 +51,8 @@ public class Entity {
         this.position = position;
         this.scale = scale;
         this.angle = angle;
+        this.velocity = new Vector3f();
+        this.acceleration = new Vector3f();
     }
     public Entity(Entity e) {
         this.position = e.getPosition();
@@ -69,11 +74,16 @@ public class Entity {
     }
 	
 	//Run the entity
+    //This should be overriden to make the do something other than rotate
     public void run() {
 
-        //Rotate the model
-        getRotationAngles().setYaw(getRotationAngles().getYaw() + (float)Math.PI / 200);
-        //getRotationAngles().setPitch(getRotationAngles().getPitch() + (float)Math.PI / 100);
+        if (action == null) {
+            //Do nothing for default
+        }
+        else {
+            //Run the action
+            action.run();
+        }
     }
 
     //Create a texturedEntity from this entity
@@ -82,23 +92,36 @@ public class Entity {
         TexturedEntity te = new TexturedEntity(this, texturePath);
         return te;
     }
-	
+
 	//Print the entity as a string
     public String toString() {
         return "Position: " + position.toString();
     }
-	
+
+    //Clone method to clone an entity into this one
+    public void clone(Entity e) {
+        this.position = e.getPosition();
+        this.scale = e.getScale();
+        this.angle = e.getRotationAngles();
+        this.velocity = e.getVelocity();
+        this.acceleration = e.getAcceleration();
+        this.model = e.getModel();
+    }
+
     //Getters and Setters
+    public void setAction(Action action) {
+        this.action = action;
+    }
     public Matrix4f getRotationMatrix(){
-		return new Matrix4f().rotateX(angle.getPitch()).rotateY(angle.getYaw());
-	}	
+		return new Matrix4f().rotationXYZ((float)Math.toRadians(angle.getPitch()),(float)Math.toRadians(angle.getYaw()), 0);
+	}
     public Matrix4f getScaleMatrix(){
 		return new Matrix4f().scale(getScale());
 	}
     public Matrix4f getTranslationMatrix(){
 		return new Matrix4f().translate(getPosition());
 	}
-	public EulerAngle getRotationAngles() {
+    public EulerAngle getRotationAngles() {
         return angle;
     }
     public void setRotationAngles(EulerAngle rotation) {

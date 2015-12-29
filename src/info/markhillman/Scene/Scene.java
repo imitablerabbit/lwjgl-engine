@@ -102,6 +102,7 @@ public class Scene {
                 angles = camera.getAngles();
                 angles.setYaw(angles.getYaw() + (float) ((x - xPrev) / sensitivity));
                 angles.setPitch(angles.getPitch() + (float) ((y - yPrev) / sensitivity));
+                angles.constrain();
 
                 xPrev = x;
                 yPrev = y;

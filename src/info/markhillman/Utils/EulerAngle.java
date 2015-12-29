@@ -51,7 +51,7 @@ public class EulerAngle {
 
         //Normalize the vector
         Vector3f dir = new Vector3f(direction);
-        dir.normalize();
+        //dir.normalize();
 
         //Calculate the yaw and the pitch from the direction vector
         yawTemp = (float)Math.atan2(dir.x, dir.z);
@@ -70,9 +70,9 @@ public class EulerAngle {
     public void constrain() {
 
         //Constrain the values
-        if (pitch > 90)
+        if (pitch >= 90)
             pitch = 90;
-        else if (pitch < -90)
+        else if (pitch <= -90)
             pitch = -90;
 
         if (yaw > 360)

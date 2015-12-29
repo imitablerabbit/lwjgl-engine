@@ -1,5 +1,7 @@
 package info.markhillman.Models;
 
+import org.joml.Vector3f;
+
 /**
  * Class: TexturedEntity
  * Description: This class will create a texturedEntity
@@ -11,8 +13,11 @@ package info.markhillman.Models;
  */
 public class TexturedEntity extends Entity {
 
-    private TexturedModel model;
+    protected TexturedModel model;
 
+    public TexturedEntity() {
+        super(new Entity());
+    }
     public TexturedEntity(Entity entity, TexturedModel model) {
         super(entity);
         this.model = model;
@@ -21,7 +26,26 @@ public class TexturedEntity extends Entity {
         super(entity);
         this.model = new TexturedModel(entity.getModel(), texturePath);
     }
+    public TexturedEntity(TexturedEntity e) {
+        this.position = e.getPosition();
+        this.scale = e.getScale();
+        this.angle = e.getRotationAngles();
+        this.velocity = e.getVelocity();
+        this.acceleration = e.getAcceleration();
+        this.model = e.getModel();
+    }
 
+    //Clone the texturedEntity
+    public void clone(TexturedEntity e) {
+        this.position = e.getPosition();
+        this.scale = e.getScale();
+        this.angle = e.getRotationAngles();
+        this.velocity = e.getVelocity();
+        this.acceleration = e.getAcceleration();
+        this.model = e.getModel();
+    }
+
+    //Getters and setters
     public TexturedModel getModel() {
         return model;
     }

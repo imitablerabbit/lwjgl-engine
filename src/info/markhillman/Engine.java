@@ -25,7 +25,7 @@ public class Engine {
     private GLFWErrorCallback errorCallback;
     private Window window;
     private Scene scene;
-    private GameTimer timer;
+    public static GameTimer timer;
 
     public Engine() {
         this(500, 500, "3D Engine");

@@ -11,7 +11,7 @@ package info.markhillman.Utils;
 public class GameTimer {
 
     private double fps = 0;
-    private double dt = 0;
+    private double dt = 1f;
     private double lastTime = 0;
     private double currentTime = 0;
     private double timeCounter = 0;
@@ -45,6 +45,11 @@ public class GameTimer {
         if (timeCounter >= 1) {
             timeCounter = 0;
             frames = 0;
+        }
+
+        //Make sure that dt is not 0
+        if (dt == 0) {
+            dt = 1f;
         }
     }
 

@@ -12,7 +12,7 @@ public class Material {
     float reflectivity;
 
     public Material() {
-        this(2, 5);
+        this(0.4f, 5);
     }
     public Material(float reflectivity, float dampening) {
         this.dampening = dampening;
