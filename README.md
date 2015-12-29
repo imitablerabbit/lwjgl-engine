@@ -33,7 +33,7 @@ When this command is run a window will open up and display an exhibition of what
 ###Cube Rotation###
 ![Cube Rotation Simulation](/res/screenshots/cube.png?raw=true "Cube Rendering")
 
-This screenshot is taken during the cube-rotation demo. In this demo a textured cube is displayed and rotated according to the engine's timer. This ensures that the cube rotates 1 unit per second no matter how many frames there are displayed per second.
+This screenshot is taken during the cube-rotation demo. In this demo a textured cube is displayed and rotated according to the engine's timer. This ensures that the cube rotates 1 unit per second no matter how many frames there are in between.
 
 ###Displaying an OBJ file###
 ![Millenium Falcon](/res/screenshots/falcon.png?raw=true "Millenium Falcon")

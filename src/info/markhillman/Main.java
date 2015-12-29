@@ -17,7 +17,7 @@ public class Main {
 
         //Create the Falcon and add to the scene
         EntityLoader loader = new EntityLoader();
-        TexturedEntity cube = loader.loadTexturedEntity("models/cube.obj", "textures/cube.bmp");
+        TexturedEntity cube = loader.loadTexturedEntity("res/models/cube.obj", "res/textures/cube.bmp");
         cube.setPosition(new Vector3f(1, -3, -2));
         scene.addEntity(cube);
         cube.setAction(()->{
