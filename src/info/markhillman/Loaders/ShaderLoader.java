@@ -1,6 +1,9 @@
 package info.markhillman.Loaders;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import static org.lwjgl.opengl.GL20.*;
 

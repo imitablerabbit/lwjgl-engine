@@ -11,7 +11,6 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 
 /**
  * Class: InstancedRenderer

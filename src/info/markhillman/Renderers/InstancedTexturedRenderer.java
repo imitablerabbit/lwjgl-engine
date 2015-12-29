@@ -1,7 +1,5 @@
 package info.markhillman.Renderers;
 
-import info.markhillman.Models.Entity;
-import info.markhillman.Models.Model;
 import info.markhillman.Models.TexturedEntity;
 import info.markhillman.Models.TexturedModel;
 import org.joml.Matrix4f;

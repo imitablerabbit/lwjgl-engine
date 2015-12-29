@@ -8,7 +8,6 @@ import java.util.List;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
-import static org.lwjgl.opengl.GL30.glUniform1ui;
 
 /**
  * Class: Model

@@ -3,7 +3,6 @@ package info.markhillman;
 import info.markhillman.Scene.Scene;
 import info.markhillman.Utils.GameTimer;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;

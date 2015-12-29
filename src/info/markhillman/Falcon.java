@@ -1,11 +1,8 @@
 package info.markhillman;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 import info.markhillman.Loaders.EntityLoader;
 import info.markhillman.Models.TexturedEntity;
-import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 /**

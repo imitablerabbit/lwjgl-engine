@@ -7,7 +7,6 @@ import info.markhillman.Models.TexturedEntity;
 import info.markhillman.Models.TexturedModel;
 import info.markhillman.Renderers.InstancedRenderer;
 import info.markhillman.Renderers.InstancedTexturedRenderer;
-import info.markhillman.Renderers.TexturedRenderer;
 import info.markhillman.Utils.EulerAngle;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWCursorPosCallback;

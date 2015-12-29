@@ -1,7 +1,8 @@
 package info.markhillman.Loaders;
 
-import info.markhillman.Models.*;
-import info.markhillman.Utils.EulerAngle;
+import info.markhillman.Models.Entity;
+import info.markhillman.Models.Model;
+import info.markhillman.Models.TexturedEntity;
 import org.joml.Vector3f;
 
 /**

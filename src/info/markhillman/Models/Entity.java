@@ -1,12 +1,8 @@
 package info.markhillman.Models;
 
-import info.markhillman.Engine;
 import info.markhillman.Utils.EulerAngle;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import org.joml.Matrix4f;
-
-import javax.xml.soap.Text;
+import org.joml.Vector3f;
 
 /**
  * Class: Model

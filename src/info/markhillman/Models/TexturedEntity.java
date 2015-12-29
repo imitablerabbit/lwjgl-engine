@@ -1,7 +1,5 @@
 package info.markhillman.Models;
 
-import org.joml.Vector3f;
-
 /**
  * Class: TexturedEntity
  * Description: This class will create a texturedEntity
