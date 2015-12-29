@@ -1,6 +1,7 @@
 #LWJGL Engine#
 
 LWJGL is an openGL variant for Java programming, this engine is designed to use LWJGL in order to open and display 3D models as well as other various tasks.
+Various different demonstrations can be found in the [demos](/demos) folder. Some examples include a boid simulation or just simply rotating a cube using the classes and function calls included in the engine. The maths behind these classes are mostly provided for by JOML, the source files for which are included in the repositories source files. 
 
 ##Compiling and running the engine:##
 
@@ -45,11 +46,9 @@ This is an example of an extremely basic boid simulation, where spheres will mov
 
 ##To Do:##
 - Add support for VBO indexing
-- Create a folder for ways in which you can use the engine (demos)
-  - Create a millenium falcon that will fly around the screen
 
 ##Change Log:##
-- Added an interface for default run method for every entity type, to create a new method for the entity call the setAction(Action a) method with a new lambda function as a parameter
+- Added an interface for default run method for every entity type, to create a new method for the entity call the setAction(Action a) method with a new lambda function as a parameter.
 - Camera:
   - Allow the camera to look at a specific point in world space
   - Allow the camera to look in a specific direction
