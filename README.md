@@ -2,7 +2,9 @@
 
 LWJGL is an openGL variant for Java programming, this engine is designed to use LWJGL in order to open and display 3D models as well as other various tasks.
 
-Various different demonstrations can be found in the [demos](/demos) folder. Some examples include a boid simulation or just simply rotating a cube using the classes and function calls included in the engine. The maths behind these classes are mostly provided for by [JOML](/src/org/joml). In the future I plan on moving away from JOML and supporting this myself.
+The aim of this engine is to abstract away some of the openGL function calls and make programmatically displaying 3D models and textures very easy. The engine will also be capable of being used as a lower level game creation engine, as it will be effortless to load and move entities around the screen.
+
+Various different demonstrations can be found in the [demos](/res/demos) folder. Some examples include a boid simulation or just simply rotating a cube using the classes and function calls included in the engine. The maths behind these classes are mostly provided for by [JOML](/src/org/joml). In the future I plan on moving away from JOML and supporting this myself.
 
 ##Compiling and running the engine:##
 
@@ -10,13 +12,13 @@ First make sure that the latest release of Java is installed. Next, on a windows
 
 ###Compiling:###
 
-In order to compile the java source files, you can use the javac command from the root of the project files:
+In order to compile the java source files, you can use the following javac command from the root of the project files:
 
 ```
 javac -d "out/production/Engine" -cp "libs/lwjgl.jar;out/production/Engine/" src/info/markhillman/Models/*.java src/info/markhillman/Renderers/*.java src/info/markhillman/Loaders/*.java src/info/markhillman/Scene/*.java src/info/markhillman/Utils/*.java src/info/markhillman/*.java
 ```
 
-This will compile the files into the out/production/Engine file path.
+This will compile the files into the out/production/Engine file path. The newly compiled class files can then be run with either the batch file, or by using the below run string inside a terminal.
 
 ###Running:###
 
@@ -26,7 +28,7 @@ In order to run the java class files, you can use the java command from the root
 java -Djava.library.path=libs/ -cp "out/production/Engine/;libs/lwjgl.jar" info.markhillman.Main
 ```
 
-When this command is run a window will open up and display an exhibition of what the engine can currently do.
+When this command is run a window will open up and display an exhibition of what the engine can currently do. At a later date I will include instructions on how to create an instance of the engine as well as load some entities into it. However for the time being, the best way to learn about the engine is to look at the demo code or the engine .java files themselves.
 
 ##Screenshots##
 
