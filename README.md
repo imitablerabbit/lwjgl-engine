@@ -48,10 +48,14 @@ This screenshot just demonstrates how a model can be loaded into the engine. On 
 This is an example of an extremely basic boid simulation, where spheres will move in 3D space according to 3 simple rules. Alignment, Cohesion and Separation are what steers each of the boids' acceleration, which in turn will move the boids with an interesting flocking behaviour.
 
 ##To Do:##
+- Change the entitiy rotation from EulerAngles to Quarternions
 - Add support for VBO indexing
 - Move the models, textures and demos to the resources folder
 
 ##Change Log:##
+- Added SingletonException class and created Exceptions package
+- Changed Engine to singleton class
+- Fixed the camera aspect ratio
 - Added an interface for default run method for every entity type, to create a new method for the entity call the setAction(Action a) method with a new lambda function as a parameter.
 - Camera:
   - Allow the camera to look at a specific point in world space

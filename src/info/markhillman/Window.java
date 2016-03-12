@@ -69,4 +69,14 @@ public class Window {
     public long getId() {
         return this.id;
     }
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public String getTitle() {
+        return title;
+    }
 }

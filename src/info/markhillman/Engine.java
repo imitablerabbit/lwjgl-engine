@@ -1,5 +1,7 @@
 package info.markhillman;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import info.markhillman.Exceptions.SingletonException;
 import info.markhillman.Scene.Scene;
 import info.markhillman.Utils.GameTimer;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -21,46 +23,68 @@ import static org.lwjgl.opengl.GL11.*;
 // TODO: 07/12/2015 Create an input handler
 public class Engine {
 
+    // Static Singleton methods
+    private static Engine engine;
+    public static Engine getInstance() {
+        if (engine == null) {
+            try {
+                new Engine();
+            }
+            catch (SingletonException e) {
+                System.out.println(e);
+            }
+        }
+        return engine;
+    }
+
+    // Engine instance methods and constructors
     private GLFWErrorCallback errorCallback;
     private Window window;
     private Scene scene;
     public static GameTimer timer;
 
-    public Engine() {
+    public Engine() throws SingletonException {
         this(500, 500, "3D Engine");
     }
-    public Engine(int width, int height) {
+    public Engine(int width, int height) throws SingletonException {
         this(width, height, "3D Engine");
     }
-    public Engine(int width, int height, String title) {
+    public Engine(int width, int height, String title) throws SingletonException {
 
-        //Setup the engine, window and base scene
-        try {
+        // Singleton creation
+        if (engine == null) {
+            try {
+                // Set the singleton instance
+                engine = this;
 
-            //Setup the error callback so that openGL can print errors
-            glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
+                //Setup the error callback so that openGL can print errors
+                glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
 
-            //Initialise GLFW
-            if (glfwInit() != GLFW_TRUE)
-                throw new IllegalStateException("Unable to initialize GLFW");
+                //Initialise GLFW
+                if (glfwInit() != GLFW_TRUE)
+                    throw new IllegalStateException("Unable to initialize GLFW");
 
-            //Create the window
-            window = new Window(title, width, height);
-            window.makeContext();
-            window.show();
+                //Create the window
+                window = new Window(title, width, height);
+                window.makeContext();
+                window.show();
 
-            //Setup the cursor
-            glfwSetInputMode(window.getId(), GLFW_STICKY_KEYS, GL_TRUE);
-            glfwSetInputMode(window.getId(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-            glfwSetCursorPos(window.getId(), 0, 0);
+                //Setup the cursor
+                glfwSetInputMode(window.getId(), GLFW_STICKY_KEYS, GL_TRUE);
+                glfwSetInputMode(window.getId(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                glfwSetCursorPos(window.getId(), 0, 0);
 
-            //Create the scene and timer
-            scene = new Scene(window.getId());
-            timer = new GameTimer();
+                //Create the scene and timer
+                scene = new Scene(window.getId());
+                timer = new GameTimer();
+            }
+            catch (IllegalStateException e) {
+                System.out.println("Could not initialise the engine");
+                System.out.println(e.toString());
+            }
         }
-        catch (IllegalStateException e) {
-            e.printStackTrace();
-            System.out.println("Could not initialise the engine");
+        else {
+            throw new SingletonException("Duplicate instance attempted");
         }
     }
 
@@ -84,18 +108,18 @@ public class Engine {
         //Set the clear color and enable openGL operations
         glClearColor(0.7f, 0.7f, 0.7f, 0.0f);
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_BLEND);
         glDepthFunc(GL_LESS);
+
+        glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
+
+        glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         //Run the game and rendering loop.
         while (window.shouldClose() == GLFW_FALSE) {
 
             timer.start();
-
-            //Clear buffers
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //Render and run the scene
@@ -105,9 +129,7 @@ public class Engine {
             //Poll for events and swap buffers
             window.swapBuffers();
             glfwPollEvents();
-
             timer.update();
-            //System.out.println("DT: " + timer.getDT() + ", FPS: " + timer.getFPS());
         }
     }
 

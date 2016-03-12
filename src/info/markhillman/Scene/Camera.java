@@ -1,5 +1,6 @@
 package info.markhillman.Scene;
 
+import info.markhillman.Engine;
 import info.markhillman.Utils.EulerAngle;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -40,7 +41,9 @@ public class Camera {
     //Create the projection matrix
     public Matrix4f calculateProjection(){
         Matrix4f result = new Matrix4f();
-        result.perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
+        int width = Engine.getInstance().getWindow().getWidth();
+        int height= Engine.getInstance().getWindow().getHeight();
+        result.perspective((float)Math.toRadians(45f), (float)width/height, 0.01f, 100.0f);
         return result;
     }
 

@@ -1,5 +1,6 @@
 package info.markhillman;
 
+import info.markhillman.Exceptions.SingletonException;
 import info.markhillman.Loaders.EntityLoader;
 import info.markhillman.Models.TexturedEntity;
 import info.markhillman.Scene.Camera;
@@ -11,7 +12,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Engine engine = new Engine();
+        Engine engine = null;
+        try {
+            engine = new Engine(700, 500, "Cube Rotation");
+        } catch (SingletonException e) {
+            System.out.println(e);
+        }
         Scene scene = engine.getScene();
         Camera camera = scene.getCamera();
 

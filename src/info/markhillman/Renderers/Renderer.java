@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 /**
- * Class: Renderers
+ * Class: Renderer
  * Description: This class will render any model and entity as
  * well as send all of the information to the shader such
  * as the vertices or the uniform variables.

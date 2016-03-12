@@ -11,7 +11,7 @@ import org.joml.Vector3f;
  * the MVP matrix.
  * Created by Mark on 06/12/2015.
  */
-public class Entity implements Action{
+public class Entity implements Action, Cloneable {
 
     protected Vector3f position;
     protected Vector3f scale;
@@ -64,13 +64,22 @@ public class Entity implements Action{
         return new Entity(model, position, scale, angle);
     }
 
+    //Clone method to clone an entity into this one
+    public void clone(Entity e) {
+        this.position = e.getPosition();
+        this.scale = e.getScale();
+        this.angle = e.getRotationAngles();
+        this.velocity = e.getVelocity();
+        this.acceleration = e.getAcceleration();
+        this.model = e.getModel();
+    }
+
     //Move the entity
     public void move() {
         position.add(velocity);
     }
 	
-	//Run the entity
-    //This should be overriden to make the do something other than rotate
+	//Run the entity's action interface
     public void run() {
 
         if (action == null) {
@@ -92,16 +101,6 @@ public class Entity implements Action{
 	//Print the entity as a string
     public String toString() {
         return "Position: " + position.toString();
-    }
-
-    //Clone method to clone an entity into this one
-    public void clone(Entity e) {
-        this.position = e.getPosition();
-        this.scale = e.getScale();
-        this.angle = e.getRotationAngles();
-        this.velocity = e.getVelocity();
-        this.acceleration = e.getAcceleration();
-        this.model = e.getModel();
     }
 
     //Getters and Setters
