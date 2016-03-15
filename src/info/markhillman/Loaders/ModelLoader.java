@@ -165,7 +165,8 @@ public class ModelLoader {
             model = new Model(verticesTemp, normalsTemp, uvsTemp);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Hello");
+            System.out.println(e);
         }
 
         return model;

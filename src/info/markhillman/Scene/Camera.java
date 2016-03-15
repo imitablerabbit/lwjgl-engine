@@ -22,6 +22,8 @@ public class Camera {
     private Matrix4f projection;
     private Matrix4f view;
     private EulerAngle angles;
+    private int width;
+    private int height;
 
     //Create the camera
     public Camera() {
@@ -32,17 +34,17 @@ public class Camera {
     }
     public Camera(Vector3f position, float pitch, float yaw, float roll) {
         this.position = position;
-        angles = new EulerAngle(pitch, yaw, roll);
+        this.angles = new EulerAngle(pitch, yaw, roll);
         this.direction = angles.toVector();
-        projection = calculateProjection();
-        view = calculateView();
+        this.width = Engine.getInstance().getWindow().getWidth();
+        this.height = Engine.getInstance().getWindow().getHeight();
+        this.projection = calculateProjection();
+        this.view = calculateView();
     }
 
     //Create the projection matrix
     public Matrix4f calculateProjection(){
         Matrix4f result = new Matrix4f();
-        int width = Engine.getInstance().getWindow().getWidth();
-        int height= Engine.getInstance().getWindow().getHeight();
         result.perspective((float)Math.toRadians(45f), (float)width/height, 0.01f, 100.0f);
         return result;
     }

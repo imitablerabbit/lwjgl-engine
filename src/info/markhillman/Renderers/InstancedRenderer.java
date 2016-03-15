@@ -2,6 +2,7 @@ package info.markhillman.Renderers;
 
 import info.markhillman.Models.Entity;
 import info.markhillman.Models.Model;
+import info.markhillman.Scene.Scene;
 import org.joml.Matrix4f;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class InstancedRenderer extends Renderer{
         super(programID);
     }
 
+    //TODO: Change this function to be the other way around
     //This will assemble the map of entities
     public Map<Model, List<Entity>> assembleMap(List<Entity> entities) {
 
@@ -60,7 +62,7 @@ public class InstancedRenderer extends Renderer{
     }
 
     //This will render the entities onto the screen
-    public void renderEntityMap(Map<Model, List<Entity>> map, Matrix4f view, Matrix4f projection) {
+    public void renderEntityMap(Map<Model, List<Entity>> map, Scene scene) {
 
         //Get each of the different models
         for (Map.Entry<Model, List<Entity>> entry : map.entrySet()) {
@@ -68,7 +70,7 @@ public class InstancedRenderer extends Renderer{
             for (Entity entity : entry.getValue()) {
 
                 //Send the uniform data
-                sendUniforms(entity, view, projection);
+                sendUniforms(entity, scene);
 
                 //Make a call to the render function
                 glDrawArrays(GL_TRIANGLES, 0, entry.getKey().getVerticesSize());

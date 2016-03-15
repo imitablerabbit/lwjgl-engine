@@ -7,11 +7,11 @@ in vec2 uv;
 in float dampening_fragment;
 in float reflectivity_fragment;
 
-vec3 lightColor = vec3(1, 1, 1);
-vec3 fragmentColor = vec3(1, 0, 0);
+vec3 fragmentColor = vec3(0, 1, 0);
 
 uniform sampler2D textureSampler;
 uniform bool isTextured;
+uniform vec3 lightColor;
 
 out vec4 color;
 

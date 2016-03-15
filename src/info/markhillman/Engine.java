@@ -1,6 +1,5 @@
 package info.markhillman;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import info.markhillman.Exceptions.SingletonException;
 import info.markhillman.Scene.Scene;
 import info.markhillman.Utils.GameTimer;

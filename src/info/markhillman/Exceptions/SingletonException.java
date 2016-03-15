@@ -6,7 +6,7 @@ package info.markhillman.Exceptions;
  * is created after a previous instance has been created
  * Created by Mark on 12/03/2016.
  */
-public class SingletonException extends Exception {
+public class SingletonException extends RuntimeException {
 
     public SingletonException() {
         super();

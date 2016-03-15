@@ -1,5 +1,8 @@
 package info.markhillman.Models;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+
 /**
  * Class: TexturedEntity
  * Description: This class will create a texturedEntity
@@ -9,7 +12,7 @@ package info.markhillman.Models;
  * attached for the render to apply.
  * Created by Mark on 22/12/2015.
  */
-public class TexturedEntity extends Entity {
+public class TexturedEntity extends Entity implements Cloneable {
 
     protected TexturedModel model;
 
@@ -25,25 +28,20 @@ public class TexturedEntity extends Entity {
         this.model = new TexturedModel(entity.getModel(), texturePath);
     }
     public TexturedEntity(TexturedEntity e) {
-        this.position = e.getPosition();
-        this.scale = e.getScale();
-        this.angle = e.getRotationAngles();
-        this.velocity = e.getVelocity();
-        this.acceleration = e.getAcceleration();
+        this.position = new Vector3f(e.getPosition());
+        this.scale = new Vector3f(e.getScale());
+        this.rotation = new Matrix4f(e.getRotation());
         this.model = e.getModel();
     }
-
-    //Clone the texturedEntity
-    public void clone(TexturedEntity e) {
-        this.position = e.getPosition();
-        this.scale = e.getScale();
-        this.angle = e.getRotationAngles();
-        this.velocity = e.getVelocity();
-        this.acceleration = e.getAcceleration();
-        this.model = e.getModel();
+    
+    @Override
+    public TexturedEntity clone() throws CloneNotSupportedException {        
+        TexturedEntity te = new TexturedEntity(this);  
+        return te;
     }
 
     //Getters and setters
+    @Override
     public TexturedModel getModel() {
         return model;
     }

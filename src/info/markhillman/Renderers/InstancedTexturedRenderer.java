@@ -2,6 +2,7 @@ package info.markhillman.Renderers;
 
 import info.markhillman.Models.TexturedEntity;
 import info.markhillman.Models.TexturedModel;
+import info.markhillman.Scene.Scene;
 import org.joml.Matrix4f;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class InstancedTexturedRenderer extends TexturedRenderer {
     }
 
     //This will render the entities onto the screen
-    public void renderEntityMap(Map<TexturedModel, List<TexturedEntity>> map, Matrix4f view, Matrix4f projection) {
+    public void renderEntityMap(Map<TexturedModel, List<TexturedEntity>> map, Scene scene) {
 
         //Get each of the different models
         for (Map.Entry<TexturedModel, List<TexturedEntity>> entry : map.entrySet()) {
@@ -65,7 +66,7 @@ public class InstancedTexturedRenderer extends TexturedRenderer {
             for (TexturedEntity entity : entry.getValue()) {
 
                 //Send the uniform data
-                sendUniforms(entity, view, projection);
+                sendUniforms(entity, scene);
 
                 //Make a call to the render function
                 glDrawArrays(GL_TRIANGLES, 0, entry.getKey().getVerticesSize());

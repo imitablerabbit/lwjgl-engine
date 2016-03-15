@@ -3,6 +3,7 @@ package info.markhillman.Renderers;
 import info.markhillman.Models.Entity;
 import info.markhillman.Models.TexturedEntity;
 import info.markhillman.Models.TexturedModel;
+import info.markhillman.Scene.Scene;
 import org.joml.Matrix4f;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -38,8 +39,8 @@ public class TexturedRenderer extends Renderer {
     }
 
     @Override
-    protected void sendUniforms(Entity entity, Matrix4f view, Matrix4f projection) {
-        super.sendUniforms(entity, view, projection);
+    protected void sendUniforms(Entity entity, Scene scene) {
+        super.sendUniforms(entity, scene);
 
         //Tell the shader that there is a texture for the following model
         sendBoolean(true, "isTextured");
@@ -53,10 +54,10 @@ public class TexturedRenderer extends Renderer {
     }
 
     //This will render a model based on its position and the MVP matrix
-    public void renderEntity(TexturedEntity entity, Matrix4f view, Matrix4f projection) {
+    public void renderEntity(TexturedEntity entity, Scene scene) {
 
         //Send the uniform variables and render the model
-        sendUniforms(entity, view, projection);
+        sendUniforms(entity, scene);
         renderModel(entity.getModel());
     }
 }

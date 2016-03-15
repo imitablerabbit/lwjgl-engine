@@ -51,8 +51,12 @@ This is an example of an extremely basic boid simulation, where spheres will mov
 - Change the entitiy rotation from EulerAngles to Quarternions
 - Add support for VBO indexing
 - Move the models, textures and demos to the resources folder
+- Add multiple lights, and collect in shader
 
 ##Change Log:##
+- Changed rotation to matrix
+- Added a light to scene
+- Added a light class
 - Added SingletonException class and created Exceptions package
 - Changed Engine to singleton class
 - Fixed the camera aspect ratio

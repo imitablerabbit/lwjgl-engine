@@ -30,6 +30,7 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 public class Scene {
 
     private Camera camera;
+    private Light light;
     private List<TexturedEntity> texturedEntities;
     private List<Entity> entities;
     private InstancedTexturedRenderer itr;
@@ -40,12 +41,13 @@ public class Scene {
     public Scene(long windowID) {
 
         //Load the shaders
-        ShaderLoader shaderLoader = new ShaderLoader("Shaders/vertex.shader", "Shaders/fragment.shader");
+        ShaderLoader shaderLoader = new ShaderLoader("Shaders/vertex.glsl", "Shaders/fragment.glsl");
         int programID = shaderLoader.getProgramID();
         glUseProgram(programID);
 
         //Create the camera to look forward
         camera = new Camera(new Vector3f(0, 0, 0), 0, 180);
+        light = new Light(new Vector3f(0, 1, 0), new Vector3f(1, 1, 0));
 
         //Create the lists and renderers
         texturedEntities = new ArrayList<>(0);
@@ -144,11 +146,11 @@ public class Scene {
         camera.update();
         if (!texturedEntities.isEmpty()) {
             Map<TexturedModel, List<TexturedEntity>> texturedMap = itr.assembleMap(texturedEntities);
-            itr.renderEntityMap(texturedMap, camera.getView(), camera.getProjection());
+            itr.renderEntityMap(texturedMap, this);
         }
         if (!entities.isEmpty()) {
             Map<Model, List<Entity>> map = ir.assembleMap(entities);
-            ir.renderEntityMap(map, camera.getView(), camera.getProjection());
+            ir.renderEntityMap(map, this);
         }
     }
 
@@ -159,6 +161,12 @@ public class Scene {
     public void setCamera(Camera camera) {
         this.camera = camera;
     }
+    public Light getLight() {
+        return light;
+    }
+    public void setLight(Light light) {
+        this.light = light;
+    }    
     public List<TexturedEntity> getTexturedEntities() {
         return texturedEntities;
     }
