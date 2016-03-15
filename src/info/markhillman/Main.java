@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Create the engine and get the objects
-        Engine engine = new Engine(700, 500, "Cube Rotation");
+        Engine engine = new Engine(700, 500, "Rotation");
         Scene scene = engine.getScene();
         Camera camera = scene.getCamera();
         Light light = new Light(new Vector3f(0, 1, 1), new Vector3f(1, 1, 1));        
