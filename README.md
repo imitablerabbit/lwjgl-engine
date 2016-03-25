@@ -48,12 +48,13 @@ This screenshot just demonstrates how a model can be loaded into the engine. On 
 This is an example of an extremely basic boid simulation, where spheres will move in 3D space according to 3 simple rules. Alignment, Cohesion and Separation are what steers each of the boids' acceleration, which in turn will move the boids with an interesting flocking behaviour.
 
 ##To Do:##
-- Change the entitiy rotation from EulerAngles to Quarternions
+- Change the demos to work with the new updates
 - Add support for VBO indexing
 - Move the models, textures and demos to the resources folder
 - Add multiple lights, and collect in shader
 
 ##Change Log:##
+- Changed the entity rotation from EulerAngles to Quarternions
 - Changed rotation to matrix
 - Added a light to scene
 - Added a light class
